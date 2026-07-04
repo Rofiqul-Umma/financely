@@ -41,11 +41,16 @@ class BalanceCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          Text(
-            Formatters.currency(totalBalance, code: currencyCode),
-            style: text.displaySmall?.copyWith(
-              color: scheme.onPrimary,
-              fontWeight: FontWeight.w800,
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              Formatters.currency(totalBalance, code: currencyCode),
+              maxLines: 1,
+              style: text.displaySmall?.copyWith(
+                color: scheme.onPrimary,
+                fontWeight: FontWeight.w800,
+              ),
             ),
           ),
           const SizedBox(height: 20),
@@ -113,12 +118,15 @@ class _MiniStat extends StatelessWidget {
                 Text(label,
                     style: text.labelMedium
                         ?.copyWith(color: onColor.withValues(alpha: 0.85))),
-                Text(
-                  value,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: text.titleMedium
-                      ?.copyWith(color: onColor, fontWeight: FontWeight.w700),
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    value,
+                    maxLines: 1,
+                    style: text.titleMedium
+                        ?.copyWith(color: onColor, fontWeight: FontWeight.w700),
+                  ),
                 ),
               ],
             ),

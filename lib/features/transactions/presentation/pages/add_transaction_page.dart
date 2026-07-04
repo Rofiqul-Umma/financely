@@ -370,26 +370,34 @@ class _TypeToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SegmentedButton<TransactionType>(
-      segments: const [
-        ButtonSegment(
-          value: TransactionType.expense,
-          label: Text('Expense'),
-          icon: Icon(Icons.south_west_rounded),
-        ),
-        ButtonSegment(
-          value: TransactionType.income,
-          label: Text('Income'),
-          icon: Icon(Icons.north_east_rounded),
-        ),
-        ButtonSegment(
-          value: TransactionType.transfer,
-          label: Text('Transfer'),
-          icon: Icon(Icons.swap_horiz_rounded),
-        ),
-      ],
-      selected: {type},
-      onSelectionChanged: (s) => onChanged(s.first),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // On narrow widths the icon + label pairs can't share one line, so
+        // drop the icons and keep just the labels to avoid wrapping.
+        final showIcons = constraints.maxWidth >= 360;
+        return SegmentedButton<TransactionType>(
+          showSelectedIcon: false,
+          segments: [
+            ButtonSegment(
+              value: TransactionType.expense,
+              label: const Text('Expense', maxLines: 1),
+              icon: showIcons ? const Icon(Icons.south_west_rounded) : null,
+            ),
+            ButtonSegment(
+              value: TransactionType.income,
+              label: const Text('Income', maxLines: 1),
+              icon: showIcons ? const Icon(Icons.north_east_rounded) : null,
+            ),
+            ButtonSegment(
+              value: TransactionType.transfer,
+              label: const Text('Transfer', maxLines: 1),
+              icon: showIcons ? const Icon(Icons.swap_horiz_rounded) : null,
+            ),
+          ],
+          selected: {type},
+          onSelectionChanged: (s) => onChanged(s.first),
+        );
+      },
     );
   }
 }
@@ -623,17 +631,23 @@ class _PaymentSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SegmentedButton<PaymentMethod>(
-      segments: [
-        for (final method in PaymentMethod.values)
-          ButtonSegment(
-            value: method,
-            label: Text(method.label),
-            icon: Icon(method.icon),
-          ),
-      ],
-      selected: {selected},
-      onSelectionChanged: (s) => onChanged(s.first),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final showIcons = constraints.maxWidth >= 360;
+        return SegmentedButton<PaymentMethod>(
+          showSelectedIcon: false,
+          segments: [
+            for (final method in PaymentMethod.values)
+              ButtonSegment(
+                value: method,
+                label: Text(method.label, maxLines: 1),
+                icon: showIcons ? Icon(method.icon) : null,
+              ),
+          ],
+          selected: {selected},
+          onSelectionChanged: (s) => onChanged(s.first),
+        );
+      },
     );
   }
 }

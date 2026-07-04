@@ -300,26 +300,39 @@ class _ThemeModeTile extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          SegmentedButton<ThemeMode>(
-            segments: const [
-              ButtonSegment(
-                value: ThemeMode.system,
-                label: Text('System'),
-                icon: Icon(Icons.brightness_auto_rounded),
-              ),
-              ButtonSegment(
-                value: ThemeMode.light,
-                label: Text('Light'),
-                icon: Icon(Icons.light_mode_rounded),
-              ),
-              ButtonSegment(
-                value: ThemeMode.dark,
-                label: Text('Dark'),
-                icon: Icon(Icons.dark_mode_rounded),
-              ),
-            ],
-            selected: {mode},
-            onSelectionChanged: (s) => onChanged(s.first),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              // Drop icons on narrow widths so the labels stay on one line.
+              final showIcons = constraints.maxWidth >= 360;
+              return SegmentedButton<ThemeMode>(
+                showSelectedIcon: false,
+                segments: [
+                  ButtonSegment(
+                    value: ThemeMode.system,
+                    label: const Text('System', maxLines: 1),
+                    icon: showIcons
+                        ? const Icon(Icons.brightness_auto_rounded)
+                        : null,
+                  ),
+                  ButtonSegment(
+                    value: ThemeMode.light,
+                    label: const Text('Light', maxLines: 1),
+                    icon: showIcons
+                        ? const Icon(Icons.light_mode_rounded)
+                        : null,
+                  ),
+                  ButtonSegment(
+                    value: ThemeMode.dark,
+                    label: const Text('Dark', maxLines: 1),
+                    icon: showIcons
+                        ? const Icon(Icons.dark_mode_rounded)
+                        : null,
+                  ),
+                ],
+                selected: {mode},
+                onSelectionChanged: (s) => onChanged(s.first),
+              );
+            },
           ),
         ],
       ),

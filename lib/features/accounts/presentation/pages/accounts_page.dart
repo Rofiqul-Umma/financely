@@ -87,12 +87,17 @@ class _NetWorthCard extends StatelessWidget {
               style: TextStyle(color: scheme.onPrimaryContainer),
             ),
             const SizedBox(height: 6),
-            Text(
-              Formatters.currency(total, code: currencyCode),
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    color: scheme.onPrimaryContainer,
-                    fontWeight: FontWeight.w700,
-                  ),
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: Text(
+                Formatters.currency(total, code: currencyCode),
+                maxLines: 1,
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      color: scheme.onPrimaryContainer,
+                      fontWeight: FontWeight.w700,
+                    ),
+              ),
             ),
           ],
         ),
@@ -133,12 +138,20 @@ class _AccountCard extends StatelessWidget {
         subtitle: Text(
           'Opening ${Formatters.currency(account.openingBalance, code: currencyCode)}',
         ),
-        trailing: Text(
-          Formatters.currency(balance, code: currencyCode),
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-            fontSize: 16,
-            color: negative ? scheme.error : scheme.onSurface,
+        trailing: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 130),
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerRight,
+            child: Text(
+              Formatters.currency(balance, code: currencyCode),
+              maxLines: 1,
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 16,
+                color: negative ? scheme.error : scheme.onSurface,
+              ),
+            ),
           ),
         ),
         onTap: onTap,

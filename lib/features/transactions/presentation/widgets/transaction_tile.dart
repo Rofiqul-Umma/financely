@@ -57,12 +57,20 @@ class TransactionTile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Text(
-            amountText,
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
-              color: amountColor,
-              fontSize: 15,
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 120),
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerRight,
+              child: Text(
+                amountText,
+                maxLines: 1,
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  color: amountColor,
+                  fontSize: 15,
+                ),
+              ),
             ),
           ),
           Icon(transaction.paymentMethod.icon,
