@@ -209,12 +209,12 @@ class SettingsPage extends StatelessWidget {
     try {
       final csv = await sl<ExportTransactionsCsv>()();
       final dir = await getTemporaryDirectory();
-      final file = File(p.join(dir.path, 'material_ledger_export.csv'));
+      final file = File(p.join(dir.path, 'financely_export.csv'));
       await file.writeAsString(csv);
       await SharePlus.instance.share(
         ShareParams(
           files: [XFile(file.path, mimeType: 'text/csv')],
-          subject: 'Material Ledger transactions',
+          subject: 'Financely transactions',
         ),
       );
     } catch (_) {

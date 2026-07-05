@@ -65,6 +65,6 @@ Future<void> configureDependencies() async {
     ..registerLazySingleton<SettingsRepository>(
         () => SettingsRepositoryImpl(sl()))
     ..registerLazySingleton<SyncService>(StubSyncService.new)
-    ..registerLazySingleton(() => ExportTransactionsCsv(sl()))
+    ..registerLazySingleton(() => ExportTransactionsCsv(sl(), sl()))
     ..registerLazySingleton(() => SettingsCubit(sl()));
 }
