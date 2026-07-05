@@ -73,11 +73,13 @@ class MaterialLedgerApp extends StatelessWidget {
               theme: AppTheme.from(
                 seed: settings.seedColor,
                 brightness: Brightness.light,
+                fontFamily: settings.fontFamily,
                 dynamicScheme: useDynamic ? lightDynamic : null,
               ),
               darkTheme: AppTheme.from(
                 seed: settings.seedColor,
                 brightness: Brightness.dark,
+                fontFamily: settings.fontFamily,
                 dynamicScheme: useDynamic ? darkDynamic : null,
               ),
               builder: (context, child) =>

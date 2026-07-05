@@ -35,4 +35,7 @@ class SettingsCubit extends Cubit<AppSettings> {
 
   Future<void> setLanguage(String code) =>
       _update(state.copyWith(languageCode: code));
+
+  Future<void> setFontFamily(String family) =>
+      _update(state.copyWith(fontFamily: family));
 }

@@ -8,6 +8,7 @@ import 'package:path/path.dart' as p;
 import 'package:share_plus/share_plus.dart';
 
 import '../../../../core/constants/currencies.dart';
+import '../../../../core/constants/fonts.dart';
 import '../../../../core/di/injector.dart';
 import '../../../../core/theme/app_palette.dart';
 import '../../../../core/utils/formatters.dart';
@@ -50,6 +51,17 @@ class SettingsPage extends StatelessWidget {
                       subtitle: Text(l.dynamicColorSubtitle),
                       value: settings.useDynamicColor,
                       onChanged: cubit.setUseDynamicColor,
+                    ),
+                    const Divider(),
+                    ListTile(
+                      leading: const Icon(Icons.font_download_outlined),
+                      title: Text(l.font),
+                      subtitle: Text(
+                        fontByFamily(settings.fontFamily).name,
+                        style: TextStyle(fontFamily: settings.fontFamily),
+                      ),
+                      trailing: const Icon(Icons.chevron_right_rounded),
+                      onTap: () => _pickFont(context, cubit),
                     ),
                   ],
                 ),
@@ -219,6 +231,35 @@ class SettingsPage extends StatelessWidget {
       ),
     );
     if (code != null) await cubit.setCurrency(code);
+  }
+
+  Future<void> _pickFont(BuildContext context, SettingsCubit cubit) async {
+    final family = await showModalBottomSheet<String>(
+      context: context,
+      showDragHandle: true,
+      builder: (context) => SafeArea(
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            for (final font in kAppFonts)
+              ListTile(
+                title: Text(
+                  font.name,
+                  style: TextStyle(fontFamily: font.family, fontSize: 18),
+                ),
+                trailing: font.family == cubit.state.fontFamily
+                    ? Icon(
+                        Icons.check_rounded,
+                        color: Theme.of(context).colorScheme.primary,
+                      )
+                    : null,
+                onTap: () => Navigator.pop(context, font.family),
+              ),
+          ],
+        ),
+      ),
+    );
+    if (family != null) await cubit.setFontFamily(family);
   }
 
   Future<void> _pickLanguage(BuildContext context, SettingsCubit cubit) async {

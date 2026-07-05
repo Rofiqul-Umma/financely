@@ -296,6 +296,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get dynamicColorSubtitle => 'Gunakan warna dari wallpaper perangkat';
 
   @override
+  String get font => 'Font';
+
+  @override
   String get accentColor => 'Warna aksen';
 
   @override

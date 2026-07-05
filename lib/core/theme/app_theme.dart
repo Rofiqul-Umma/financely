@@ -1,6 +1,5 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 /// Builds the Material Ledger MD3 theme from a seed color / dynamic scheme.
 class AppTheme {
@@ -9,16 +8,18 @@ class AppTheme {
   static ThemeData from({
     required Color seed,
     required Brightness brightness,
+    String fontFamily = 'Roboto',
     ColorScheme? dynamicScheme,
   }) {
     final scheme = dynamicScheme?.harmonized() ??
         ColorScheme.fromSeed(seedColor: seed, brightness: brightness);
-    return _base(scheme);
+    return _base(scheme, fontFamily);
   }
 
-  static ThemeData _base(ColorScheme scheme) {
+  static ThemeData _base(ColorScheme scheme, String fontFamily) {
     final baseText = ThemeData(brightness: scheme.brightness).textTheme;
-    final textTheme = GoogleFonts.robotoFlexTextTheme(baseText).apply(
+    final textTheme = baseText.apply(
+      fontFamily: fontFamily,
       bodyColor: scheme.onSurface,
       displayColor: scheme.onSurface,
     );

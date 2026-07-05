@@ -13,6 +13,9 @@ class AppSettings extends Equatable {
   /// UI language, as an ISO code ('en' or 'id').
   final String languageCode;
 
+  /// Font family name as registered in pubspec.yaml.
+  final String fontFamily;
+
   const AppSettings({
     required this.seedColorValue,
     required this.themeMode,
@@ -20,6 +23,7 @@ class AppSettings extends Equatable {
     required this.currencyCode,
     required this.monthlyBudget,
     required this.languageCode,
+    required this.fontFamily,
   });
 
   factory AppSettings.defaults() => AppSettings(
@@ -29,6 +33,7 @@ class AppSettings extends Equatable {
         currencyCode: 'USD',
         monthlyBudget: 2000,
         languageCode: 'en',
+        fontFamily: 'Roboto',
       );
 
   Color get seedColor => Color(seedColorValue);
@@ -40,6 +45,7 @@ class AppSettings extends Equatable {
     String? currencyCode,
     double? monthlyBudget,
     String? languageCode,
+    String? fontFamily,
   }) {
     return AppSettings(
       seedColorValue: seedColorValue ?? this.seedColorValue,
@@ -48,6 +54,7 @@ class AppSettings extends Equatable {
       currencyCode: currencyCode ?? this.currencyCode,
       monthlyBudget: monthlyBudget ?? this.monthlyBudget,
       languageCode: languageCode ?? this.languageCode,
+      fontFamily: fontFamily ?? this.fontFamily,
     );
   }
 
@@ -59,5 +66,6 @@ class AppSettings extends Equatable {
         currencyCode,
         monthlyBudget,
         languageCode,
+        fontFamily,
       ];
 }

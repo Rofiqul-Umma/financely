@@ -296,6 +296,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dynamicColorSubtitle => 'Use colors from your device wallpaper';
 
   @override
+  String get font => 'Font';
+
+  @override
   String get accentColor => 'Accent color';
 
   @override

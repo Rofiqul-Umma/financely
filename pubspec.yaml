@@ -58,6 +58,20 @@ flutter:
   uses-material-design: true
   generate: true
 
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto.ttf
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins.ttf
+    - family: RobotoSlab
+      fonts:
+        - asset: assets/fonts/RobotoSlab.ttf
+    - family: ElmsSans
+      fonts:
+        - asset: assets/fonts/ElmsSans.ttf
+
 # App launcher icons for Android & iOS. Regenerate with:
 #   dart run flutter_launcher_icons
 flutter_launcher_icons:

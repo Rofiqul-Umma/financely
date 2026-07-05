@@ -132,6 +132,7 @@
   "themeDark": "Dark",
   "dynamicColor": "Dynamic color",
   "dynamicColorSubtitle": "Use colors from your device wallpaper",
+  "font": "Font",
   "accentColor": "Accent color",
   "accentDynamicHint": "Pick a color to switch off dynamic theming",
   "accentPickHint": "Pick your Material You brand color",

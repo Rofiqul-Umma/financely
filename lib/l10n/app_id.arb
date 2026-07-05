@@ -99,6 +99,7 @@
   "themeDark": "Gelap",
   "dynamicColor": "Warna dinamis",
   "dynamicColorSubtitle": "Gunakan warna dari wallpaper perangkat",
+  "font": "Font",
   "accentColor": "Warna aksen",
   "accentDynamicHint": "Pilih warna untuk mematikan tema dinamis",
   "accentPickHint": "Pilih warna merek Material You Anda",
