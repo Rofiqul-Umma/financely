@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/utils/formatters.dart';
+import '../../../../l10n/app_localizations.dart';
+import '../../../../l10n/l10n_labels.dart';
 import '../../../settings/presentation/cubit/settings_cubit.dart';
 import '../../domain/entities/transaction.dart';
 import '../bloc/transactions_bloc.dart';
@@ -39,7 +40,7 @@ class TransactionsPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(12, 16, 12, 4),
                   child: Text(
-                    Formatters.relativeDate(group.day),
+                    localizedRelativeDate(context, group.day),
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(
                           color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.w700,
@@ -109,6 +110,7 @@ class _EmptyHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
+    final l = AppLocalizations.of(context);
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -116,10 +118,10 @@ class _EmptyHistory extends StatelessWidget {
           Icon(Icons.receipt_long_rounded,
               size: 64, color: scheme.onSurfaceVariant),
           const SizedBox(height: 16),
-          Text('No transactions yet',
+          Text(l.noTransactionsYet,
               style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 4),
-          Text('Tap + to log your first one',
+          Text(l.tapToLogFirst,
               style: TextStyle(color: scheme.onSurfaceVariant)),
         ],
       ),

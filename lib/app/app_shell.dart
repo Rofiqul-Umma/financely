@@ -6,28 +6,30 @@ import '../features/dashboard/presentation/pages/dashboard_page.dart';
 import '../features/settings/presentation/pages/settings_page.dart';
 import '../features/transactions/presentation/pages/add_transaction_page.dart';
 import '../features/transactions/presentation/pages/transactions_page.dart';
+import '../l10n/app_localizations.dart';
 
 class _Destination {
-  final String label;
   final IconData icon;
   final IconData selectedIcon;
-  const _Destination(this.label, this.icon, this.selectedIcon);
+  const _Destination(this.icon, this.selectedIcon);
 }
 
 const _destinations = <_Destination>[
-  _Destination('Dashboard', Icons.dashboard_outlined, Icons.dashboard_rounded),
+  _Destination(Icons.dashboard_outlined, Icons.dashboard_rounded),
+  _Destination(Icons.receipt_long_outlined, Icons.receipt_long_rounded),
   _Destination(
-    'Transactions',
-    Icons.receipt_long_outlined,
-    Icons.receipt_long_rounded,
-  ),
-  _Destination(
-    'Accounts',
     Icons.account_balance_wallet_outlined,
     Icons.account_balance_wallet_rounded,
   ),
-  _Destination('Settings', Icons.settings_outlined, Icons.settings_rounded),
+  _Destination(Icons.settings_outlined, Icons.settings_rounded),
 ];
+
+String _navLabel(AppLocalizations l, int index) => switch (index) {
+      0 => l.navDashboard,
+      1 => l.navTransactions,
+      2 => l.navAccounts,
+      _ => l.navSettings,
+    };
 
 /// Hosts the three primary destinations with an adaptive navigation surface:
 /// a bottom bar on phones, a navigation rail on tablets and larger.
@@ -62,7 +64,7 @@ class _AppShellState extends State<AppShell> {
 
   PreferredSizeWidget _appBar(BuildContext context) {
     return AppBar(
-      title: Text(_destinations[_index].label),
+      title: Text(_navLabel(AppLocalizations.of(context), _index)),
       titleTextStyle: Theme.of(
         context,
       ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700),
@@ -71,6 +73,7 @@ class _AppShellState extends State<AppShell> {
   }
 
   Widget _buildCompact(BuildContext context, Widget body) {
+    final l = AppLocalizations.of(context);
     return Scaffold(
       appBar: _appBar(context),
       body: SafeArea(child: body),
@@ -78,18 +81,18 @@ class _AppShellState extends State<AppShell> {
           ? FloatingActionButton.extended(
               onPressed: () => AddTransactionPage.show(context),
               icon: const Icon(Icons.add_rounded),
-              label: const Text('Add Expanse'),
+              label: Text(l.addExpense),
             )
           : null,
       bottomNavigationBar: NavigationBar(
         selectedIndex: _index,
         onDestinationSelected: _select,
         destinations: [
-          for (final d in _destinations)
+          for (var i = 0; i < _destinations.length; i++)
             NavigationDestination(
-              icon: Icon(d.icon),
-              selectedIcon: Icon(d.selectedIcon),
-              label: d.label,
+              icon: Icon(_destinations[i].icon),
+              selectedIcon: Icon(_destinations[i].selectedIcon),
+              label: _navLabel(l, i),
             ),
         ],
       ),
@@ -140,6 +143,7 @@ class _NavRail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return SingleChildScrollView(
       child: ConstrainedBox(
         constraints: BoxConstraints(
@@ -159,7 +163,7 @@ class _NavRail extends StatelessWidget {
                   ? FloatingActionButton.extended(
                       onPressed: onAdd,
                       icon: const Icon(Icons.add_rounded),
-                      label: const Text('Add Expanse'),
+                      label: Text(l.addExpense),
                     )
                   : FloatingActionButton(
                       onPressed: onAdd,
@@ -167,11 +171,11 @@ class _NavRail extends StatelessWidget {
                     ),
             ),
             destinations: [
-              for (final d in _destinations)
+              for (var i = 0; i < _destinations.length; i++)
                 NavigationRailDestination(
-                  icon: Icon(d.icon),
-                  selectedIcon: Icon(d.selectedIcon),
-                  label: Text(d.label),
+                  icon: Icon(_destinations[i].icon),
+                  selectedIcon: Icon(_destinations[i].selectedIcon),
+                  label: Text(_navLabel(l, i)),
                 ),
             ],
           ),

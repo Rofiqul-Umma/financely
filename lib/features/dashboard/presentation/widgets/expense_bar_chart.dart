@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/utils/formatters.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/dashboard_summary.dart';
 
 class ExpenseBarChart extends StatelessWidget {
@@ -20,6 +21,8 @@ class ExpenseBarChart extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
+    final l = AppLocalizations.of(context);
+    final locale = Localizations.localeOf(context).languageCode;
     final maxY = (maxExpense <= 0 ? 100.0 : maxExpense) * 1.25;
     final now = DateTime.now();
     final currentIndex = buckets.indexWhere(
@@ -31,10 +34,10 @@ class ExpenseBarChart extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Spending Trend',
+            Text(l.spendingTrend,
                 style: text.titleMedium
                     ?.copyWith(fontWeight: FontWeight.w600)),
-            Text('Last ${buckets.length} months',
+            Text(l.lastMonths(buckets.length),
                 style: text.bodySmall
                     ?.copyWith(color: scheme.onSurfaceVariant)),
             const SizedBox(height: 20),
@@ -87,7 +90,8 @@ class ExpenseBarChart extends StatelessWidget {
                           return Padding(
                             padding: const EdgeInsets.only(top: 6),
                             child: Text(
-                              Formatters.monthShort(buckets[i].month),
+                              Formatters.monthShort(buckets[i].month,
+                                  locale: locale),
                               style: text.labelSmall,
                             ),
                           );

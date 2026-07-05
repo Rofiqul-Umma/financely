@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../core/constants/currencies.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../settings/presentation/cubit/settings_cubit.dart';
 import '../../domain/entities/account.dart';
 import '../cubit/accounts_cubit.dart';
@@ -64,6 +65,7 @@ class _AddAccountPageState extends State<AddAccountPage> {
 
   void _save() {
     if (!_formKey.currentState!.validate()) return;
+    final l = AppLocalizations.of(context);
     final opening =
         double.tryParse(_openingController.text.replaceAll(',', '.')) ?? 0;
     final account = AccountEntity(
@@ -78,30 +80,30 @@ class _AddAccountPageState extends State<AddAccountPage> {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(
-        content: Text(_isEditing ? 'Account updated' : 'Account added'),
+        content: Text(_isEditing ? l.accountUpdated : l.accountAdded),
       ));
   }
 
   Future<void> _confirmDelete() async {
     final initial = widget.initial;
     if (initial == null) return;
+    final l = AppLocalizations.of(context);
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete account?'),
-        content: Text(
-            '"${initial.name}" will be removed. Existing transactions are kept but will no longer be linked to an account.'),
+        title: Text(l.deleteAccountQuestion),
+        content: Text(l.accountWillBeRemoved(initial.name)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+            child: Text(l.cancel),
           ),
           FilledButton(
             style: FilledButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.error,
             ),
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('Delete'),
+            child: Text(l.delete),
           ),
         ],
       ),
@@ -111,11 +113,12 @@ class _AddAccountPageState extends State<AddAccountPage> {
     Navigator.of(context).pop();
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
-      ..showSnackBar(const SnackBar(content: Text('Account deleted')));
+      ..showSnackBar(SnackBar(content: Text(l.accountDeleted)));
   }
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final scheme = Theme.of(context).colorScheme;
     final currencyCode =
         context.select((SettingsCubit c) => c.state.currencyCode);
@@ -126,12 +129,12 @@ class _AddAccountPageState extends State<AddAccountPage> {
           icon: const Icon(Icons.close_rounded),
           onPressed: () => Navigator.of(context).maybePop(),
         ),
-        title: Text(_isEditing ? 'Edit Account' : 'New Account'),
+        title: Text(_isEditing ? l.editAccount : l.newAccountTitle),
         actions: [
           if (_isEditing)
             IconButton(
               icon: const Icon(Icons.delete_outline_rounded),
-              tooltip: 'Delete',
+              tooltip: l.delete,
               onPressed: _confirmDelete,
             ),
         ],
@@ -144,13 +147,13 @@ class _AddAccountPageState extends State<AddAccountPage> {
             TextFormField(
               controller: _nameController,
               textCapitalization: TextCapitalization.words,
-              decoration: const InputDecoration(
-                labelText: 'Account name',
-                hintText: 'e.g. Cash, BCA, Visa',
-                prefixIcon: Icon(Icons.badge_outlined),
+              decoration: InputDecoration(
+                labelText: l.accountName,
+                hintText: l.accountNameHint,
+                prefixIcon: const Icon(Icons.badge_outlined),
               ),
               validator: (v) =>
-                  (v == null || v.trim().isEmpty) ? 'Enter a name' : null,
+                  (v == null || v.trim().isEmpty) ? l.enterName : null,
             ),
             const SizedBox(height: 24),
             TextFormField(
@@ -161,13 +164,13 @@ class _AddAccountPageState extends State<AddAccountPage> {
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9.,-]')),
               ],
               decoration: InputDecoration(
-                labelText: 'Opening balance',
+                labelText: l.openingBalance,
                 prefixText: '${currencyByCode(currencyCode).symbol} ',
                 prefixIcon: const Icon(Icons.account_balance_wallet_outlined),
               ),
             ),
             const SizedBox(height: 24),
-            _SectionLabel('Icon'),
+            _SectionLabel(l.icon),
             const SizedBox(height: 12),
             _IconPicker(
               selected: _iconId,
@@ -175,7 +178,7 @@ class _AddAccountPageState extends State<AddAccountPage> {
               onSelected: (id) => setState(() => _iconId = id),
             ),
             const SizedBox(height: 24),
-            _SectionLabel('Color'),
+            _SectionLabel(l.color),
             const SizedBox(height: 12),
             _ColorPicker(
               selectedValue: _colorValue,
@@ -194,7 +197,7 @@ class _AddAccountPageState extends State<AddAccountPage> {
         child: FilledButton.icon(
           onPressed: _save,
           icon: const Icon(Icons.check_rounded),
-          label: Text(_isEditing ? 'Save changes' : 'Create account'),
+          label: Text(_isEditing ? l.saveChanges : l.createAccount),
           style: FilledButton.styleFrom(
             backgroundColor: scheme.primary,
             minimumSize: const Size.fromHeight(56),

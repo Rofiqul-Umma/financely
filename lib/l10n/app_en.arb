@@ -1,0 +1,193 @@
+{
+  "@@locale": "en",
+  "appTitle": "Financely",
+
+  "navDashboard": "Dashboard",
+  "navTransactions": "Transactions",
+  "navAccounts": "Accounts",
+  "navSettings": "Settings",
+  "addExpense": "Add Expense",
+
+  "balanceTotalBalance": "Total Balance",
+  "balanceIncome": "Income",
+  "balanceSpent": "Spent",
+
+  "budgetMonthlyBudget": "Monthly Budget",
+  "budgetSpent": "{amount} spent",
+  "@budgetSpent": {
+    "placeholders": { "amount": { "type": "String" } }
+  },
+  "budgetOver": "{amount} over",
+  "@budgetOver": {
+    "placeholders": { "amount": { "type": "String" } }
+  },
+  "budgetLeft": "{amount} left",
+  "@budgetLeft": {
+    "placeholders": { "amount": { "type": "String" } }
+  },
+
+  "topCategories": "Top Categories",
+  "thisMonth": "This month",
+  "noSpendingThisMonth": "No spending this month yet",
+
+  "spendingTrend": "Spending Trend",
+  "lastMonths": "Last {count} months",
+  "@lastMonths": {
+    "placeholders": { "count": { "type": "int" } }
+  },
+
+  "recentActivity": "Recent Activity",
+  "seeAll": "See all",
+  "noActivityYet": "No activity yet",
+
+  "noTransactionsYet": "No transactions yet",
+  "tapToLogFirst": "Tap + to log your first one",
+
+  "editTransaction": "Edit Transaction",
+  "addTransaction": "Add Transaction",
+  "delete": "Delete",
+  "description": "Description",
+  "descriptionHint": "e.g. Grocery run",
+  "enterDescription": "Enter a description",
+  "category": "Category",
+  "customCategoryName": "Custom category name",
+  "customCategoryHint": "e.g. Side hustle",
+  "date": "Date",
+  "paymentMethod": "Payment method",
+  "fromAccount": "From account",
+  "account": "Account",
+  "toAccount": "To account",
+  "noteOptional": "Note (optional)",
+  "noAccountsAddFromTab": "No accounts yet — add one from the Accounts tab.",
+  "createAccountFirst": "Create an account first, then add transactions",
+  "addSecondAccountTransfer": "Add a second account to transfer between",
+  "chooseTwoDifferentAccounts": "Choose two different accounts for a transfer",
+  "deleteTransactionQuestion": "Delete transaction?",
+  "willBeRemovedPermanently": "\"{title}\" will be removed permanently.",
+  "@willBeRemovedPermanently": {
+    "placeholders": { "title": { "type": "String" } }
+  },
+  "cancel": "Cancel",
+  "transactionDeleted": "Transaction deleted",
+  "enterAmount": "Enter an amount",
+  "enterValidAmount": "Enter a valid amount",
+  "typeUpdated": "{type} updated",
+  "@typeUpdated": {
+    "placeholders": { "type": { "type": "String" } }
+  },
+  "typeAdded": "{type} added",
+  "@typeAdded": {
+    "placeholders": { "type": { "type": "String" } }
+  },
+  "saveChanges": "Save changes",
+  "saveTransaction": "Save transaction",
+
+  "editAccount": "Edit Account",
+  "newAccountTitle": "New Account",
+  "accountName": "Account name",
+  "accountNameHint": "e.g. Cash, BCA, Visa",
+  "enterName": "Enter a name",
+  "openingBalance": "Opening balance",
+  "icon": "Icon",
+  "color": "Color",
+  "deleteAccountQuestion": "Delete account?",
+  "accountWillBeRemoved": "\"{name}\" will be removed. Existing transactions are kept but will no longer be linked to an account.",
+  "@accountWillBeRemoved": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "accountUpdated": "Account updated",
+  "accountAdded": "Account added",
+  "accountDeleted": "Account deleted",
+  "createAccount": "Create account",
+
+  "totalAcrossAccounts": "Total across accounts",
+  "newAccount": "New account",
+  "noAccountsYet": "No accounts yet",
+  "addOneToStart": "Add one to start tracking balances",
+  "opening": "Opening {amount}",
+  "@opening": {
+    "placeholders": { "amount": { "type": "String" } }
+  },
+
+  "appearance": "Appearance",
+  "theme": "Theme",
+  "themeSystem": "System",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "dynamicColor": "Dynamic color",
+  "dynamicColorSubtitle": "Use colors from your device wallpaper",
+  "accentColor": "Accent color",
+  "accentDynamicHint": "Pick a color to switch off dynamic theming",
+  "accentPickHint": "Pick your Material You brand color",
+  "budgetAndCurrency": "Budget & Currency",
+  "monthlyBudget": "Monthly budget",
+  "amount": "Amount",
+  "save": "Save",
+  "currency": "Currency",
+  "language": "Language",
+  "languageEnglish": "English",
+  "languageIndonesian": "Bahasa Indonesia",
+  "security": "Security",
+  "appPasscode": "App passcode",
+  "appPasscodeSubtitle": "Require a 6-digit PIN to open the app",
+  "changePasscode": "Change passcode",
+  "biometricUnlock": "Biometric unlock",
+  "biometricSubtitle": "Use fingerprint or Face ID",
+  "removePasscodeQuestion": "Remove passcode?",
+  "removePasscodeContent": "The app will no longer be locked. Biometric unlock is also turned off.",
+  "remove": "Remove",
+  "couldNotEnableBiometric": "Could not enable biometric unlock.",
+  "dataAndSync": "Data & Sync",
+  "exportToCsv": "Export to CSV",
+  "exportSubtitle": "Share your transaction history",
+  "exportUnavailable": "Export is unavailable on this device",
+  "cloudSync": "Cloud sync",
+  "cloudSyncSubtitle": "Back up to the cloud (demo)",
+  "about": "About",
+  "version": "Version 1.0.0",
+
+  "enterPasscode": "Enter passcode",
+  "unlockToContinue": "Unlock Financely to continue",
+  "tooManyAttempts": "Too many attempts. Try again in {time}",
+  "@tooManyAttempts": {
+    "placeholders": { "time": { "type": "String" } }
+  },
+  "forgotPasscode": "Forgot passcode?",
+  "forgotPasscodeContent": "A local passcode cannot be recovered. To regain access, Financely will remove the passcode and erase all transactions and accounts on this device. This cannot be undone.",
+  "eraseAndReset": "Erase & reset",
+  "passcodeRemovedErased": "Passcode removed and data erased.",
+
+  "setPasscode": "Set passcode",
+  "confirmPasscode": "Confirm passcode",
+  "createPasscode": "Create a passcode",
+  "chooseSixDigit": "Choose a 6-digit passcode",
+  "reenterSixDigit": "Re-enter your 6-digit passcode",
+  "pinsDidNotMatch": "PINs did not match. Try again.",
+
+  "today": "Today",
+  "yesterday": "Yesterday",
+
+  "typeExpense": "Expense",
+  "typeIncome": "Income",
+  "typeTransfer": "Transfer",
+
+  "paymentCash": "Cash",
+  "paymentCard": "Card",
+  "paymentBank": "Bank",
+
+  "catFood": "Food & Drink",
+  "catGroceries": "Groceries",
+  "catTransport": "Transport",
+  "catShopping": "Shopping",
+  "catBills": "Bills",
+  "catEntertainment": "Entertainment",
+  "catHealth": "Health",
+  "catHousing": "Housing",
+  "catTravel": "Travel",
+  "catEducation": "Education",
+  "catSalary": "Salary",
+  "catInvestment": "Investment",
+  "catGift": "Gift",
+  "catOther": "Other",
+  "catTransfer": "Transfer"
+}

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../core/theme/app_theme.dart';
+import '../l10n/app_localizations.dart';
 import '../features/security/presentation/cubit/app_lock_cubit.dart';
 import '../features/security/presentation/pages/lock_screen.dart';
 import '../features/settings/domain/entities/app_settings.dart';
@@ -63,8 +64,11 @@ class MaterialLedgerApp extends StatelessWidget {
           builder: (lightDynamic, darkDynamic) {
             final useDynamic = settings.useDynamicColor;
             return MaterialApp(
-              title: 'Material Ledger',
+              title: 'Financely',
               debugShowCheckedModeBanner: false,
+              locale: Locale(settings.languageCode),
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
               themeMode: settings.themeMode,
               theme: AppTheme.from(
                 seed: settings.seedColor,

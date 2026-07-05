@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'app/app.dart';
 import 'core/di/injector.dart';
@@ -11,6 +12,7 @@ import 'features/transactions/presentation/bloc/transactions_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting();
   await configureDependencies();
 
   // Load persisted preferences and lock state.

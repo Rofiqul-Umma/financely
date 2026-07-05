@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/utils/formatters.dart';
+import '../../../../l10n/app_localizations.dart';
+import '../../../../l10n/l10n_labels.dart';
 import '../../domain/entities/transaction.dart';
 import '../../domain/entities/transaction_enums.dart';
 import '../utils/category_visuals.dart';
@@ -22,6 +24,7 @@ class TransactionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
+    final l = AppLocalizations.of(context);
     final isIncome = transaction.type == TransactionType.income;
     final isTransfer = transaction.type == TransactionType.transfer;
     final amountColor = isIncome
@@ -49,7 +52,7 @@ class TransactionTile extends StatelessWidget {
         style: const TextStyle(fontWeight: FontWeight.w600),
       ),
       subtitle: Text(
-        '${transaction.categoryLabel} · ${Formatters.relativeDate(transaction.date)}',
+        '${transaction.localizedCategoryLabel(l)} · ${localizedRelativeDate(context, transaction.date)}',
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../l10n/app_localizations.dart';
 import '../../../transactions/domain/entities/transaction.dart';
 import '../../../transactions/presentation/pages/add_transaction_page.dart';
 import '../../../transactions/presentation/widgets/transaction_tile.dart';
@@ -19,6 +20,7 @@ class RecentTransactionsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
+    final l = AppLocalizations.of(context);
     return Card(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
@@ -30,13 +32,13 @@ class RecentTransactionsCard extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Recent Activity',
+                  Text(l.recentActivity,
                       style: text.titleMedium
                           ?.copyWith(fontWeight: FontWeight.w600)),
                   if (onSeeAll != null)
                     TextButton(
                       onPressed: onSeeAll,
-                      child: const Text('See all'),
+                      child: Text(l.seeAll),
                     ),
                 ],
               ),
@@ -47,7 +49,7 @@ class RecentTransactionsCard extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(vertical: 24),
                 child: Center(
                   child: Text(
-                    'No activity yet',
+                    l.noActivityYet,
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.onSurfaceVariant),
                   ),

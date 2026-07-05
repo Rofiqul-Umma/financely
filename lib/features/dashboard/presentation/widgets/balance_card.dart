@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/utils/formatters.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class BalanceCard extends StatelessWidget {
   final double totalBalance;
@@ -20,6 +21,7 @@ class BalanceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
+    final l = AppLocalizations.of(context);
 
     return Container(
       padding: const EdgeInsets.all(24),
@@ -35,7 +37,7 @@ class BalanceCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Total Balance',
+            l.balanceTotalBalance,
             style: text.labelLarge?.copyWith(
               color: scheme.onPrimary.withValues(alpha: 0.85),
             ),
@@ -59,7 +61,7 @@ class BalanceCard extends StatelessWidget {
               Expanded(
                 child: _MiniStat(
                   icon: Icons.south_west_rounded,
-                  label: 'Income',
+                  label: l.balanceIncome,
                   value: Formatters.currency(monthIncome, code: currencyCode),
                   onColor: scheme.onPrimary,
                 ),
@@ -72,7 +74,7 @@ class BalanceCard extends StatelessWidget {
               Expanded(
                 child: _MiniStat(
                   icon: Icons.north_east_rounded,
-                  label: 'Spent',
+                  label: l.balanceSpent,
                   value: Formatters.currency(monthExpense, code: currencyCode),
                   onColor: scheme.onPrimary,
                 ),

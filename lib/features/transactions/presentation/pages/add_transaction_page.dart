@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../core/constants/currencies.dart';
+import '../../../../l10n/app_localizations.dart';
+import '../../../../l10n/l10n_labels.dart';
 import '../../../accounts/domain/entities/account.dart';
 import '../../../accounts/presentation/cubit/accounts_cubit.dart';
 import '../../../accounts/presentation/utils/account_visuals.dart';
@@ -119,6 +121,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
 
   void _save() {
     if (!_formKey.currentState!.validate()) return;
+    final l = AppLocalizations.of(context);
     final messenger = ScaffoldMessenger.of(context);
     final accounts = context.read<AccountsCubit>().state.accounts;
     final fromId = _resolveFrom(accounts);
@@ -127,23 +130,21 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
     if (fromId == null) {
       messenger
         ..hideCurrentSnackBar()
-        ..showSnackBar(const SnackBar(
-            content: Text('Create an account first, then add transactions')));
+        ..showSnackBar(SnackBar(content: Text(l.createAccountFirst)));
       return;
     }
     if (_type == TransactionType.transfer) {
       if (toId == null) {
         messenger
           ..hideCurrentSnackBar()
-          ..showSnackBar(const SnackBar(
-              content: Text('Add a second account to transfer between')));
+          ..showSnackBar(SnackBar(content: Text(l.addSecondAccountTransfer)));
         return;
       }
       if (fromId == toId) {
         messenger
           ..hideCurrentSnackBar()
-          ..showSnackBar(const SnackBar(
-              content: Text('Choose two different accounts for a transfer')));
+          ..showSnackBar(
+              SnackBar(content: Text(l.chooseTwoDifferentAccounts)));
         return;
       }
     }
@@ -174,8 +175,8 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
       ..showSnackBar(
         SnackBar(
           content: Text(_isEditing
-              ? '${_type.label} updated'
-              : '${_type.label} added'),
+              ? l.typeUpdated(_type.localizedLabel(l))
+              : l.typeAdded(_type.localizedLabel(l))),
         ),
       );
   }
@@ -183,22 +184,23 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   Future<void> _confirmDelete() async {
     final initial = widget.initial;
     if (initial == null) return;
+    final l = AppLocalizations.of(context);
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete transaction?'),
-        content: Text('"${initial.title}" will be removed permanently.'),
+        title: Text(l.deleteTransactionQuestion),
+        content: Text(l.willBeRemovedPermanently(initial.title)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancel'),
+            child: Text(l.cancel),
           ),
           FilledButton(
             style: FilledButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.error,
             ),
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('Delete'),
+            child: Text(l.delete),
           ),
         ],
       ),
@@ -208,12 +210,13 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
     Navigator.of(context).pop();
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
-      ..showSnackBar(const SnackBar(content: Text('Transaction deleted')));
+      ..showSnackBar(SnackBar(content: Text(l.transactionDeleted)));
   }
 
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
+    final l = AppLocalizations.of(context);
     final currencyCode =
         context.select((SettingsCubit c) => c.state.currencyCode);
     final accounts = context.watch<AccountsCubit>().state.accounts;
@@ -238,12 +241,12 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
           icon: const Icon(Icons.close_rounded),
           onPressed: () => Navigator.of(context).maybePop(),
         ),
-        title: Text(_isEditing ? 'Edit Transaction' : 'Add Transaction'),
+        title: Text(_isEditing ? l.editTransaction : l.addTransaction),
         actions: [
           if (_isEditing)
             IconButton(
               icon: const Icon(Icons.delete_outline_rounded),
-              tooltip: 'Delete',
+              tooltip: l.delete,
               onPressed: _confirmDelete,
             ),
         ],
@@ -265,16 +268,16 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
             TextFormField(
               controller: _titleController,
               textCapitalization: TextCapitalization.sentences,
-              decoration: const InputDecoration(
-                labelText: 'Description',
-                hintText: 'e.g. Grocery run',
-                prefixIcon: Icon(Icons.edit_note_rounded),
+              decoration: InputDecoration(
+                labelText: l.description,
+                hintText: l.descriptionHint,
+                prefixIcon: const Icon(Icons.edit_note_rounded),
               ),
               validator: (v) =>
-                  (v == null || v.trim().isEmpty) ? 'Enter a description' : null,
+                  (v == null || v.trim().isEmpty) ? l.enterDescription : null,
             ),
             const SizedBox(height: 24),
-            _SectionLabel('Category'),
+            _SectionLabel(l.category),
             const SizedBox(height: 12),
             _CategoryGrid(
               categories: categories,
@@ -296,18 +299,18 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
               ),
             ],
             const SizedBox(height: 24),
-            _SectionLabel('Date'),
+            _SectionLabel(l.date),
             const SizedBox(height: 8),
             _DateTile(date: _date, onTap: _pickDate),
             const SizedBox(height: 24),
-            _SectionLabel('Payment method'),
+            _SectionLabel(l.paymentMethod),
             const SizedBox(height: 12),
             _PaymentSelector(
               selected: _paymentMethod,
               onChanged: (m) => setState(() => _paymentMethod = m),
             ),
             const SizedBox(height: 24),
-            _SectionLabel(isTransfer ? 'From account' : 'Account'),
+            _SectionLabel(isTransfer ? l.fromAccount : l.account),
             const SizedBox(height: 12),
             _AccountSelector(
               accounts: accounts,
@@ -319,7 +322,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
             ),
             if (isTransfer) ...[
               const SizedBox(height: 24),
-              _SectionLabel('To account'),
+              _SectionLabel(l.toAccount),
               const SizedBox(height: 12),
               _AccountSelector(
                 accounts: accounts,
@@ -333,9 +336,9 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
               controller: _noteController,
               maxLines: 2,
               textCapitalization: TextCapitalization.sentences,
-              decoration: const InputDecoration(
-                labelText: 'Note (optional)',
-                prefixIcon: Icon(Icons.sticky_note_2_outlined),
+              decoration: InputDecoration(
+                labelText: l.noteOptional,
+                prefixIcon: const Icon(Icons.sticky_note_2_outlined),
               ),
             ),
           ],
@@ -351,7 +354,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
         child: FilledButton.icon(
           onPressed: _save,
           icon: const Icon(Icons.check_rounded),
-          label: Text(_isEditing ? 'Save changes' : 'Save transaction'),
+          label: Text(_isEditing ? l.saveChanges : l.saveTransaction),
           style: FilledButton.styleFrom(
             backgroundColor: scheme.primary,
             minimumSize: const Size.fromHeight(56),
@@ -370,6 +373,7 @@ class _TypeToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return LayoutBuilder(
       builder: (context, constraints) {
         // On narrow widths the icon + label pairs can't share one line, so
@@ -380,17 +384,17 @@ class _TypeToggle extends StatelessWidget {
           segments: [
             ButtonSegment(
               value: TransactionType.expense,
-              label: const Text('Expense', maxLines: 1),
+              label: Text(l.typeExpense, maxLines: 1),
               icon: showIcons ? const Icon(Icons.south_west_rounded) : null,
             ),
             ButtonSegment(
               value: TransactionType.income,
-              label: const Text('Income', maxLines: 1),
+              label: Text(l.typeIncome, maxLines: 1),
               icon: showIcons ? const Icon(Icons.north_east_rounded) : null,
             ),
             ButtonSegment(
               value: TransactionType.transfer,
-              label: const Text('Transfer', maxLines: 1),
+              label: Text(l.typeTransfer, maxLines: 1),
               icon: showIcons ? const Icon(Icons.swap_horiz_rounded) : null,
             ),
           ],
@@ -415,16 +419,17 @@ class _CustomCategoryField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextFormField(
           controller: controller,
           textCapitalization: TextCapitalization.words,
-          decoration: const InputDecoration(
-            labelText: 'Custom category name',
-            hintText: 'e.g. Side hustle',
-            prefixIcon: Icon(Icons.new_label_outlined),
+          decoration: InputDecoration(
+            labelText: l.customCategoryName,
+            hintText: l.customCategoryHint,
+            prefixIcon: const Icon(Icons.new_label_outlined),
           ),
         ),
         if (suggestions.isNotEmpty) ...[
@@ -504,9 +509,10 @@ class _AmountField extends StatelessWidget {
                 contentPadding: EdgeInsets.zero,
               ),
               validator: (v) {
-                if (v == null || v.trim().isEmpty) return 'Enter an amount';
+                final l = AppLocalizations.of(context);
+                if (v == null || v.trim().isEmpty) return l.enterAmount;
                 final parsed = double.tryParse(v.replaceAll(',', '.'));
-                if (parsed == null || parsed <= 0) return 'Enter a valid amount';
+                if (parsed == null || parsed <= 0) return l.enterValidAmount;
                 return null;
               },
             ),
@@ -582,7 +588,7 @@ class _CategoryPill extends StatelessWidget {
               Icon(category.icon, size: 20, color: category.color),
               const SizedBox(width: 8),
               Text(
-                category.label,
+                category.localizedLabel(AppLocalizations.of(context)),
                 style: TextStyle(
                   fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
                   color: selected ? category.color : scheme.onSurface,
@@ -631,6 +637,7 @@ class _PaymentSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return LayoutBuilder(
       builder: (context, constraints) {
         final showIcons = constraints.maxWidth >= 360;
@@ -640,7 +647,7 @@ class _PaymentSelector extends StatelessWidget {
             for (final method in PaymentMethod.values)
               ButtonSegment(
                 value: method,
-                label: Text(method.label, maxLines: 1),
+                label: Text(method.localizedLabel(l), maxLines: 1),
                 icon: showIcons ? Icon(method.icon) : null,
               ),
           ],
@@ -673,7 +680,7 @@ class _AccountSelector extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     if (accounts.isEmpty) {
       return Text(
-        'No accounts yet — add one from the Accounts tab.',
+        AppLocalizations.of(context).noAccountsAddFromTab,
         style: TextStyle(color: scheme.onSurfaceVariant),
       );
     }

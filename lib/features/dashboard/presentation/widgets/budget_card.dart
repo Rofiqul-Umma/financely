@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/utils/formatters.dart';
+import '../../../../l10n/app_localizations.dart';
 
 class BudgetCard extends StatelessWidget {
   final double spent;
@@ -18,6 +19,7 @@ class BudgetCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
+    final l = AppLocalizations.of(context);
     final ratio = budget <= 0 ? 0.0 : (spent / budget).clamp(0.0, 1.0);
     final overBudget = spent > budget && budget > 0;
     final remaining = budget - spent;
@@ -37,7 +39,7 @@ class BudgetCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Monthly Budget',
+                Text(l.budgetMonthlyBudget,
                     style: text.titleMedium
                         ?.copyWith(fontWeight: FontWeight.w600)),
                 Text('${(ratio * 100).round()}%',
@@ -62,14 +64,17 @@ class BudgetCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '${Formatters.currency(spent, code: currencyCode)} spent',
+                  l.budgetSpent(
+                      Formatters.currency(spent, code: currencyCode)),
                   style: text.bodyMedium
                       ?.copyWith(color: scheme.onSurfaceVariant),
                 ),
                 Text(
                   overBudget
-                      ? '${Formatters.currency(remaining.abs(), code: currencyCode)} over'
-                      : '${Formatters.currency(remaining, code: currencyCode)} left',
+                      ? l.budgetOver(Formatters.currency(remaining.abs(),
+                          code: currencyCode))
+                      : l.budgetLeft(
+                          Formatters.currency(remaining, code: currencyCode)),
                   style: text.bodyMedium?.copyWith(
                     color: overBudget ? scheme.error : scheme.onSurfaceVariant,
                     fontWeight: FontWeight.w600,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils/formatters.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../settings/presentation/cubit/settings_cubit.dart';
 import '../../../transactions/presentation/bloc/transactions_bloc.dart';
 import '../../domain/entities/account.dart';
@@ -42,7 +43,7 @@ class AccountsPage extends StatelessWidget {
                   child: FilledButton.tonalIcon(
                     onPressed: () => AddAccountPage.show(context),
                     icon: const Icon(Icons.add_rounded),
-                    label: const Text('New account'),
+                    label: Text(AppLocalizations.of(context).newAccount),
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -83,7 +84,7 @@ class _NetWorthCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Total across accounts',
+              AppLocalizations.of(context).totalAcrossAccounts,
               style: TextStyle(color: scheme.onPrimaryContainer),
             ),
             const SizedBox(height: 6),
@@ -136,7 +137,9 @@ class _AccountCard extends StatelessWidget {
           style: const TextStyle(fontWeight: FontWeight.w600),
         ),
         subtitle: Text(
-          'Opening ${Formatters.currency(account.openingBalance, code: currencyCode)}',
+          AppLocalizations.of(context).opening(
+            Formatters.currency(account.openingBalance, code: currencyCode),
+          ),
         ),
         trailing: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 130),
@@ -173,10 +176,10 @@ class _EmptyAccounts extends StatelessWidget {
           Icon(Icons.account_balance_wallet_outlined,
               size: 64, color: scheme.onSurfaceVariant),
           const SizedBox(height: 16),
-          Text('No accounts yet',
+          Text(AppLocalizations.of(context).noAccountsYet,
               style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 4),
-          Text('Add one to start tracking balances',
+          Text(AppLocalizations.of(context).addOneToStart,
               style: TextStyle(color: scheme.onSurfaceVariant)),
         ],
       ),

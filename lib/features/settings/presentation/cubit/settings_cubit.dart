@@ -32,4 +32,7 @@ class SettingsCubit extends Cubit<AppSettings> {
 
   Future<void> setMonthlyBudget(double budget) =>
       _update(state.copyWith(monthlyBudget: budget));
+
+  Future<void> setLanguage(String code) =>
+      _update(state.copyWith(languageCode: code));
 }

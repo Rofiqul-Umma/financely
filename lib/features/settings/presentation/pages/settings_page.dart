@@ -11,6 +11,7 @@ import '../../../../core/constants/currencies.dart';
 import '../../../../core/di/injector.dart';
 import '../../../../core/theme/app_palette.dart';
 import '../../../../core/utils/formatters.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../security/presentation/cubit/app_lock_cubit.dart';
 import '../../../security/presentation/pages/set_passcode_page.dart';
 import '../../domain/services/sync_service.dart';
@@ -22,6 +23,7 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     final cubit = context.watch<SettingsCubit>();
     final settings = cubit.state;
 
@@ -34,7 +36,7 @@ class SettingsPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const _SectionHeader('Appearance', Icons.palette_outlined),
+                _SectionHeader(l.appearance, Icons.palette_outlined),
                 _SettingsGroup(
                   children: [
                     _ThemeModeTile(
@@ -44,10 +46,8 @@ class SettingsPage extends StatelessWidget {
                     const Divider(),
                     SwitchListTile(
                       secondary: const Icon(Icons.auto_awesome_rounded),
-                      title: const Text('Dynamic color'),
-                      subtitle: const Text(
-                        'Use colors from your device wallpaper',
-                      ),
+                      title: Text(l.dynamicColor),
+                      subtitle: Text(l.dynamicColorSubtitle),
                       value: settings.useDynamicColor,
                       onChanged: cubit.setUseDynamicColor,
                     ),
@@ -67,15 +67,15 @@ class SettingsPage extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 24),
-                const _SectionHeader(
-                  'Budget & Currency',
+                _SectionHeader(
+                  l.budgetAndCurrency,
                   Icons.account_balance_wallet_outlined,
                 ),
                 _SettingsGroup(
                   children: [
                     ListTile(
                       leading: const Icon(Icons.savings_outlined),
-                      title: const Text('Monthly budget'),
+                      title: Text(l.monthlyBudget),
                       subtitle: Text(
                         Formatters.currency(
                           settings.monthlyBudget,
@@ -88,47 +88,55 @@ class SettingsPage extends StatelessWidget {
                     const Divider(),
                     ListTile(
                       leading: const Icon(Icons.attach_money_rounded),
-                      title: const Text('Currency'),
+                      title: Text(l.currency),
                       subtitle: Text(
                         currencyByCode(settings.currencyCode).name,
                       ),
                       trailing: const Icon(Icons.chevron_right_rounded),
                       onTap: () => _pickCurrency(context, cubit),
                     ),
+                    const Divider(),
+                    ListTile(
+                      leading: const Icon(Icons.translate_rounded),
+                      title: Text(l.language),
+                      subtitle: Text(_languageName(l, settings.languageCode)),
+                      trailing: const Icon(Icons.chevron_right_rounded),
+                      onTap: () => _pickLanguage(context, cubit),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 24),
-                const _SectionHeader('Security', Icons.lock_outline_rounded),
+                _SectionHeader(l.security, Icons.lock_outline_rounded),
                 const _SecuritySection(),
                 const SizedBox(height: 24),
-                const _SectionHeader('Data & Sync', Icons.cloud_sync_outlined),
+                _SectionHeader(l.dataAndSync, Icons.cloud_sync_outlined),
                 _SettingsGroup(
                   children: [
                     ListTile(
                       leading: const Icon(Icons.file_download_outlined),
-                      title: const Text('Export to CSV'),
-                      subtitle: const Text('Share your transaction history'),
+                      title: Text(l.exportToCsv),
+                      subtitle: Text(l.exportSubtitle),
                       trailing: const Icon(Icons.chevron_right_rounded),
                       onTap: () => _exportCsv(context),
                     ),
                     const Divider(),
                     ListTile(
                       leading: const Icon(Icons.cloud_upload_outlined),
-                      title: const Text('Cloud sync'),
-                      subtitle: const Text('Back up to the cloud (demo)'),
+                      title: Text(l.cloudSync),
+                      subtitle: Text(l.cloudSyncSubtitle),
                       trailing: const Icon(Icons.chevron_right_rounded),
                       onTap: () => _runSync(context),
                     ),
                   ],
                 ),
                 const SizedBox(height: 24),
-                const _SectionHeader('About', Icons.info_outline_rounded),
+                _SectionHeader(l.about, Icons.info_outline_rounded),
                 _SettingsGroup(
                   children: [
-                    const ListTile(
-                      leading: Icon(Icons.receipt_long_rounded),
-                      title: Text('Financely'),
-                      subtitle: Text('Version 1.0.0'),
+                    ListTile(
+                      leading: const Icon(Icons.receipt_long_rounded),
+                      title: Text(l.appTitle),
+                      subtitle: Text(l.version),
                     ),
                   ],
                 ),
@@ -140,14 +148,18 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
+  String _languageName(AppLocalizations l, String code) =>
+      code == 'id' ? l.languageIndonesian : l.languageEnglish;
+
   Future<void> _editBudget(BuildContext context, SettingsCubit cubit) async {
+    final l = AppLocalizations.of(context);
     final controller = TextEditingController(
       text: cubit.state.monthlyBudget.toStringAsFixed(0),
     );
     final result = await showDialog<double>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Monthly budget'),
+        title: Text(l.monthlyBudget),
         content: TextField(
           controller: controller,
           autofocus: true,
@@ -157,18 +169,18 @@ class SettingsPage extends StatelessWidget {
           ],
           decoration: InputDecoration(
             prefixText: '${currencyByCode(cubit.state.currencyCode).symbol} ',
-            labelText: 'Amount',
+            labelText: l.amount,
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
+            child: Text(l.cancel),
           ),
           FilledButton(
             onPressed: () =>
                 Navigator.pop(context, double.tryParse(controller.text) ?? 0),
-            child: const Text('Save'),
+            child: Text(l.save),
           ),
         ],
       ),
@@ -209,8 +221,38 @@ class SettingsPage extends StatelessWidget {
     if (code != null) await cubit.setCurrency(code);
   }
 
+  Future<void> _pickLanguage(BuildContext context, SettingsCubit cubit) async {
+    final l = AppLocalizations.of(context);
+    final options = {'en': l.languageEnglish, 'id': l.languageIndonesian};
+    final code = await showModalBottomSheet<String>(
+      context: context,
+      showDragHandle: true,
+      builder: (context) => SafeArea(
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            for (final entry in options.entries)
+              ListTile(
+                leading: const Icon(Icons.translate_rounded),
+                title: Text(entry.value),
+                trailing: entry.key == cubit.state.languageCode
+                    ? Icon(
+                        Icons.check_rounded,
+                        color: Theme.of(context).colorScheme.primary,
+                      )
+                    : null,
+                onTap: () => Navigator.pop(context, entry.key),
+              ),
+          ],
+        ),
+      ),
+    );
+    if (code != null) await cubit.setLanguage(code);
+  }
+
   Future<void> _exportCsv(BuildContext context) async {
     final messenger = ScaffoldMessenger.of(context);
+    final unavailable = AppLocalizations.of(context).exportUnavailable;
     try {
       final csv = await sl<ExportTransactionsCsv>()();
       final dir = await getTemporaryDirectory();
@@ -224,7 +266,7 @@ class SettingsPage extends StatelessWidget {
       );
     } catch (_) {
       messenger.showSnackBar(
-        const SnackBar(content: Text('Export is unavailable on this device')),
+        SnackBar(content: Text(unavailable)),
       );
     }
   }
@@ -292,6 +334,7 @@ class _ThemeModeTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
       child: Column(
@@ -301,7 +344,7 @@ class _ThemeModeTile extends StatelessWidget {
             children: [
               const Icon(Icons.brightness_6_outlined),
               const SizedBox(width: 16),
-              Text('Theme', style: Theme.of(context).textTheme.bodyLarge),
+              Text(l.theme, style: Theme.of(context).textTheme.bodyLarge),
             ],
           ),
           const SizedBox(height: 12),
@@ -314,21 +357,21 @@ class _ThemeModeTile extends StatelessWidget {
                 segments: [
                   ButtonSegment(
                     value: ThemeMode.system,
-                    label: const Text('System', maxLines: 1),
+                    label: Text(l.themeSystem, maxLines: 1),
                     icon: showIcons
                         ? const Icon(Icons.brightness_auto_rounded)
                         : null,
                   ),
                   ButtonSegment(
                     value: ThemeMode.light,
-                    label: const Text('Light', maxLines: 1),
+                    label: Text(l.themeLight, maxLines: 1),
                     icon: showIcons
                         ? const Icon(Icons.light_mode_rounded)
                         : null,
                   ),
                   ButtonSegment(
                     value: ThemeMode.dark,
-                    label: const Text('Dark', maxLines: 1),
+                    label: Text(l.themeDark, maxLines: 1),
                     icon: showIcons
                         ? const Icon(Icons.dark_mode_rounded)
                         : null,
@@ -349,6 +392,7 @@ class _SecuritySection extends StatelessWidget {
   const _SecuritySection();
 
   Future<void> _togglePasscode(BuildContext context, bool value) async {
+    final l = AppLocalizations.of(context);
     final cubit = context.read<AppLockCubit>();
     if (value) {
       await SetPasscodePage.show(context);
@@ -356,19 +400,16 @@ class _SecuritySection extends StatelessWidget {
       final confirmed = await showDialog<bool>(
         context: context,
         builder: (ctx) => AlertDialog(
-          title: const Text('Remove passcode?'),
-          content: const Text(
-            'The app will no longer be locked. Biometric unlock is also '
-            'turned off.',
-          ),
+          title: Text(l.removePasscodeQuestion),
+          content: Text(l.removePasscodeContent),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(ctx, false),
-              child: const Text('Cancel'),
+              child: Text(l.cancel),
             ),
             FilledButton(
               onPressed: () => Navigator.pop(ctx, true),
-              child: const Text('Remove'),
+              child: Text(l.remove),
             ),
           ],
         ),
@@ -379,26 +420,26 @@ class _SecuritySection extends StatelessWidget {
 
   Future<void> _toggleBiometric(BuildContext context, bool value) async {
     final messenger = ScaffoldMessenger.of(context);
+    final failed = AppLocalizations.of(context).couldNotEnableBiometric;
     final ok = await context.read<AppLockCubit>().setBiometricEnabled(value);
     if (!ok && value) {
       messenger.showSnackBar(
-        const SnackBar(
-          content: Text('Could not enable biometric unlock.'),
-        ),
+        SnackBar(content: Text(failed)),
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final l = AppLocalizations.of(context);
     return BlocBuilder<AppLockCubit, AppLockState>(
       builder: (context, state) {
         return _SettingsGroup(
           children: [
             SwitchListTile(
               secondary: const Icon(Icons.pin_outlined),
-              title: const Text('App passcode'),
-              subtitle: const Text('Require a 6-digit PIN to open the app'),
+              title: Text(l.appPasscode),
+              subtitle: Text(l.appPasscodeSubtitle),
               value: state.passcodeEnabled,
               onChanged: (v) => _togglePasscode(context, v),
             ),
@@ -406,7 +447,7 @@ class _SecuritySection extends StatelessWidget {
               const Divider(),
               ListTile(
                 leading: const Icon(Icons.password_rounded),
-                title: const Text('Change passcode'),
+                title: Text(l.changePasscode),
                 trailing: const Icon(Icons.chevron_right_rounded),
                 onTap: () => SetPasscodePage.show(context, isChange: true),
               ),
@@ -414,8 +455,8 @@ class _SecuritySection extends StatelessWidget {
                 const Divider(),
                 SwitchListTile(
                   secondary: const Icon(Icons.fingerprint_rounded),
-                  title: const Text('Biometric unlock'),
-                  subtitle: const Text('Use fingerprint or Face ID'),
+                  title: Text(l.biometricUnlock),
+                  subtitle: Text(l.biometricSubtitle),
                   value: state.biometricEnabled,
                   onChanged: (v) => _toggleBiometric(context, v),
                 ),
@@ -447,12 +488,15 @@ class _AccentPicker extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Accent color', style: Theme.of(context).textTheme.bodyLarge),
+            Text(
+              AppLocalizations.of(context).accentColor,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
             const SizedBox(height: 4),
             Text(
               usingDynamic
-                  ? 'Pick a color to switch off dynamic theming'
-                  : 'Pick your Material You brand color',
+                  ? AppLocalizations.of(context).accentDynamicHint
+                  : AppLocalizations.of(context).accentPickHint,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),

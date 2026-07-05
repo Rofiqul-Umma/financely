@@ -13,6 +13,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
   static const _kDynamic = 'settings.useDynamicColor';
   static const _kCurrency = 'settings.currency';
   static const _kBudget = 'settings.monthlyBudget';
+  static const _kLanguage = 'settings.language';
 
   @override
   Future<AppSettings> load() async {
@@ -24,6 +25,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
       useDynamicColor: _prefs.getBool(_kDynamic) ?? defaults.useDynamicColor,
       currencyCode: _prefs.getString(_kCurrency) ?? defaults.currencyCode,
       monthlyBudget: _prefs.getDouble(_kBudget) ?? defaults.monthlyBudget,
+      languageCode: _prefs.getString(_kLanguage) ?? defaults.languageCode,
     );
   }
 
@@ -35,6 +37,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
       _prefs.setBool(_kDynamic, settings.useDynamicColor),
       _prefs.setString(_kCurrency, settings.currencyCode),
       _prefs.setDouble(_kBudget, settings.monthlyBudget),
+      _prefs.setString(_kLanguage, settings.languageCode),
     ]);
   }
 }

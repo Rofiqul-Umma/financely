@@ -10,12 +10,16 @@ class AppSettings extends Equatable {
   final String currencyCode;
   final double monthlyBudget;
 
+  /// UI language, as an ISO code ('en' or 'id').
+  final String languageCode;
+
   const AppSettings({
     required this.seedColorValue,
     required this.themeMode,
     required this.useDynamicColor,
     required this.currencyCode,
     required this.monthlyBudget,
+    required this.languageCode,
   });
 
   factory AppSettings.defaults() => AppSettings(
@@ -24,6 +28,7 @@ class AppSettings extends Equatable {
         useDynamicColor: false,
         currencyCode: 'USD',
         monthlyBudget: 2000,
+        languageCode: 'en',
       );
 
   Color get seedColor => Color(seedColorValue);
@@ -34,6 +39,7 @@ class AppSettings extends Equatable {
     bool? useDynamicColor,
     String? currencyCode,
     double? monthlyBudget,
+    String? languageCode,
   }) {
     return AppSettings(
       seedColorValue: seedColorValue ?? this.seedColorValue,
@@ -41,10 +47,17 @@ class AppSettings extends Equatable {
       useDynamicColor: useDynamicColor ?? this.useDynamicColor,
       currencyCode: currencyCode ?? this.currencyCode,
       monthlyBudget: monthlyBudget ?? this.monthlyBudget,
+      languageCode: languageCode ?? this.languageCode,
     );
   }
 
   @override
-  List<Object?> get props =>
-      [seedColorValue, themeMode, useDynamicColor, currencyCode, monthlyBudget];
+  List<Object?> get props => [
+        seedColorValue,
+        themeMode,
+        useDynamicColor,
+        currencyCode,
+        monthlyBudget,
+        languageCode,
+      ];
 }

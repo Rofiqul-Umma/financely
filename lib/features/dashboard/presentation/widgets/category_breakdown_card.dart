@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/utils/formatters.dart';
+import '../../../../l10n/app_localizations.dart';
+import '../../../../l10n/l10n_labels.dart';
 import '../../../transactions/domain/entities/transaction_enums.dart';
 import '../../../transactions/presentation/utils/category_visuals.dart';
 import '../../domain/entities/dashboard_summary.dart';
@@ -19,6 +21,7 @@ class CategoryBreakdownCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final text = Theme.of(context).textTheme;
+    final l = AppLocalizations.of(context);
     final top = breakdown.take(5).toList();
     final total = breakdown.fold<double>(0, (sum, e) => sum + e.amount);
 
@@ -28,11 +31,11 @@ class CategoryBreakdownCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Top Categories',
+            Text(l.topCategories,
                 style: text.titleMedium
                     ?.copyWith(fontWeight: FontWeight.w600)),
             const SizedBox(height: 4),
-            Text('This month',
+            Text(l.thisMonth,
                 style: text.bodySmall
                     ?.copyWith(color: scheme.onSurfaceVariant)),
             const SizedBox(height: 16),
@@ -40,7 +43,7 @@ class CategoryBreakdownCard extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 24),
                 child: Center(
-                  child: Text('No spending this month yet',
+                  child: Text(l.noSpendingThisMonth,
                       style: TextStyle(color: scheme.onSurfaceVariant)),
                 ),
               )
@@ -93,7 +96,7 @@ class _CategoryRow extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(category.label,
+                  Text(category.localizedLabel(AppLocalizations.of(context)),
                       style: text.bodyMedium
                           ?.copyWith(fontWeight: FontWeight.w600)),
                   Text(Formatters.currency(amount, code: currencyCode),

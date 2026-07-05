@@ -23,20 +23,12 @@ class Formatters {
         .format(amount);
   }
 
-  static String monthShort(DateTime date) => DateFormat.MMM().format(date);
+  static String monthShort(DateTime date, {String? locale}) =>
+      DateFormat.MMM(locale).format(date);
 
-  static String dayMonth(DateTime date) => DateFormat.MMMd().format(date);
+  static String dayMonth(DateTime date, {String? locale}) =>
+      DateFormat.MMMd(locale).format(date);
 
-  static String fullDate(DateTime date) => DateFormat.yMMMMd().format(date);
-
-  static String relativeDate(DateTime date) {
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final that = DateTime(date.year, date.month, date.day);
-    final diff = today.difference(that).inDays;
-    if (diff == 0) return 'Today';
-    if (diff == 1) return 'Yesterday';
-    if (diff < 7) return DateFormat.EEEE().format(date);
-    return DateFormat.MMMd().format(date);
-  }
+  static String fullDate(DateTime date, {String? locale}) =>
+      DateFormat.yMMMMd(locale).format(date);
 }
