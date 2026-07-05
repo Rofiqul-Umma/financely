@@ -11,6 +11,8 @@ import '../../../../core/constants/currencies.dart';
 import '../../../../core/di/injector.dart';
 import '../../../../core/theme/app_palette.dart';
 import '../../../../core/utils/formatters.dart';
+import '../../../security/presentation/cubit/app_lock_cubit.dart';
+import '../../../security/presentation/pages/set_passcode_page.dart';
 import '../../domain/services/sync_service.dart';
 import '../../domain/usecases/export_transactions_csv.dart';
 import '../cubit/settings_cubit.dart';
@@ -95,6 +97,9 @@ class SettingsPage extends StatelessWidget {
                     ),
                   ],
                 ),
+                const SizedBox(height: 24),
+                const _SectionHeader('Security', Icons.lock_outline_rounded),
+                const _SecuritySection(),
                 const SizedBox(height: 24),
                 const _SectionHeader('Data & Sync', Icons.cloud_sync_outlined),
                 _SettingsGroup(
@@ -336,6 +341,89 @@ class _ThemeModeTile extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _SecuritySection extends StatelessWidget {
+  const _SecuritySection();
+
+  Future<void> _togglePasscode(BuildContext context, bool value) async {
+    final cubit = context.read<AppLockCubit>();
+    if (value) {
+      await SetPasscodePage.show(context);
+    } else {
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: const Text('Remove passcode?'),
+          content: const Text(
+            'The app will no longer be locked. Biometric unlock is also '
+            'turned off.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, false),
+              child: const Text('Cancel'),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.pop(ctx, true),
+              child: const Text('Remove'),
+            ),
+          ],
+        ),
+      );
+      if (confirmed == true) await cubit.disablePasscode();
+    }
+  }
+
+  Future<void> _toggleBiometric(BuildContext context, bool value) async {
+    final messenger = ScaffoldMessenger.of(context);
+    final ok = await context.read<AppLockCubit>().setBiometricEnabled(value);
+    if (!ok && value) {
+      messenger.showSnackBar(
+        const SnackBar(
+          content: Text('Could not enable biometric unlock.'),
+        ),
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AppLockCubit, AppLockState>(
+      builder: (context, state) {
+        return _SettingsGroup(
+          children: [
+            SwitchListTile(
+              secondary: const Icon(Icons.pin_outlined),
+              title: const Text('App passcode'),
+              subtitle: const Text('Require a 6-digit PIN to open the app'),
+              value: state.passcodeEnabled,
+              onChanged: (v) => _togglePasscode(context, v),
+            ),
+            if (state.passcodeEnabled) ...[
+              const Divider(),
+              ListTile(
+                leading: const Icon(Icons.password_rounded),
+                title: const Text('Change passcode'),
+                trailing: const Icon(Icons.chevron_right_rounded),
+                onTap: () => SetPasscodePage.show(context, isChange: true),
+              ),
+              if (state.biometricAvailable) ...[
+                const Divider(),
+                SwitchListTile(
+                  secondary: const Icon(Icons.fingerprint_rounded),
+                  title: const Text('Biometric unlock'),
+                  subtitle: const Text('Use fingerprint or Face ID'),
+                  value: state.biometricEnabled,
+                  onChanged: (v) => _toggleBiometric(context, v),
+                ),
+              ],
+            ],
+          ],
+        );
+      },
     );
   }
 }

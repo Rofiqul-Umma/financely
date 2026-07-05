@@ -7,6 +7,11 @@ import '../../features/accounts/domain/repositories/account_repository.dart';
 import '../../features/accounts/presentation/cubit/accounts_cubit.dart';
 import '../../features/dashboard/domain/usecases/build_dashboard_summary.dart';
 import '../../features/dashboard/presentation/bloc/dashboard_bloc.dart';
+import '../../features/security/data/app_reset_repository_impl.dart';
+import '../../features/security/data/passcode_repository_impl.dart';
+import '../../features/security/domain/repositories/app_reset_repository.dart';
+import '../../features/security/domain/repositories/passcode_repository.dart';
+import '../../features/security/presentation/cubit/app_lock_cubit.dart';
 import '../../features/settings/data/services/stub_sync_service.dart';
 import '../../features/settings/data/settings_repository_impl.dart';
 import '../../features/settings/domain/repositories/settings_repository.dart';
@@ -67,4 +72,12 @@ Future<void> configureDependencies() async {
     ..registerLazySingleton<SyncService>(StubSyncService.new)
     ..registerLazySingleton(() => ExportTransactionsCsv(sl(), sl()))
     ..registerLazySingleton(() => SettingsCubit(sl()));
+
+  // Security feature.
+  sl
+    ..registerLazySingleton<PasscodeRepository>(
+        () => PasscodeRepositoryImpl(sl()))
+    ..registerLazySingleton<AppResetRepository>(
+        () => AppResetRepositoryImpl(sl()))
+    ..registerLazySingleton(() => AppLockCubit(sl(), sl()));
 }
