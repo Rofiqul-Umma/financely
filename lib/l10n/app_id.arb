@@ -53,6 +53,7 @@
   "deleteTransactionQuestion": "Hapus transaksi?",
   "willBeRemovedPermanently": "\"{title}\" akan dihapus permanen.",
   "cancel": "Batal",
+  "undo": "Urungkan",
   "transactionDeleted": "Transaksi dihapus",
   "enterAmount": "Masukkan jumlah",
   "enterValidAmount": "Masukkan jumlah yang valid",
@@ -60,6 +61,15 @@
   "typeAdded": "{type} ditambahkan",
   "saveChanges": "Simpan perubahan",
   "saveTransaction": "Simpan transaksi",
+
+  "confirm": "Konfirmasi",
+  "saveChangesQuestion": "Simpan perubahan?",
+  "addAccountQuestion": "Tambah akun?",
+  "addAccountConfirm": "Tambahkan \"{name}\" ke akun Anda?",
+  "saveAccountConfirm": "Simpan perubahan pada \"{name}\"?",
+  "addTransactionQuestion": "Tambah transaksi?",
+  "addTransactionConfirm": "Tambahkan transaksi ini?",
+  "saveTransactionConfirm": "Simpan perubahan pada transaksi ini?",
 
   "editAccount": "Ubah Akun",
   "newAccountTitle": "Akun Baru",

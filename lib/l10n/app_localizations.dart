@@ -368,6 +368,12 @@ abstract class AppLocalizations {
   /// **'Cancel'**
   String get cancel;
 
+  /// No description provided for @undo.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get undo;
+
   /// No description provided for @transactionDeleted.
   ///
   /// In en, this message translates to:
@@ -409,6 +415,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save transaction'**
   String get saveTransaction;
+
+  /// No description provided for @confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
+
+  /// No description provided for @saveChangesQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Save changes?'**
+  String get saveChangesQuestion;
+
+  /// No description provided for @addAccountQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Add account?'**
+  String get addAccountQuestion;
+
+  /// No description provided for @addAccountConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Add \"{name}\" to your accounts?'**
+  String addAccountConfirm(String name);
+
+  /// No description provided for @saveAccountConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Save changes to \"{name}\"?'**
+  String saveAccountConfirm(String name);
+
+  /// No description provided for @addTransactionQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'Add transaction?'**
+  String get addTransactionQuestion;
+
+  /// No description provided for @addTransactionConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Add this transaction?'**
+  String get addTransactionConfirm;
+
+  /// No description provided for @saveTransactionConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Save changes to this transaction?'**
+  String get saveTransactionConfirm;
 
   /// No description provided for @editAccount.
   ///

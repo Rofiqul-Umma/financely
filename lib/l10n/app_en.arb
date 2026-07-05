@@ -68,6 +68,7 @@
     "placeholders": { "title": { "type": "String" } }
   },
   "cancel": "Cancel",
+  "undo": "Undo",
   "transactionDeleted": "Transaction deleted",
   "enterAmount": "Enter an amount",
   "enterValidAmount": "Enter a valid amount",
@@ -81,6 +82,21 @@
   },
   "saveChanges": "Save changes",
   "saveTransaction": "Save transaction",
+
+  "confirm": "Confirm",
+  "saveChangesQuestion": "Save changes?",
+  "addAccountQuestion": "Add account?",
+  "addAccountConfirm": "Add \"{name}\" to your accounts?",
+  "@addAccountConfirm": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "saveAccountConfirm": "Save changes to \"{name}\"?",
+  "@saveAccountConfirm": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "addTransactionQuestion": "Add transaction?",
+  "addTransactionConfirm": "Add this transaction?",
+  "saveTransactionConfirm": "Save changes to this transaction?",
 
   "editAccount": "Edit Account",
   "newAccountTitle": "New Account",

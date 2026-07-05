@@ -52,9 +52,7 @@ class TransactionsPage extends StatelessWidget {
                     key: ValueKey(t.id),
                     direction: DismissDirection.endToStart,
                     background: _deleteBackground(context),
-                    onDismissed: (_) => context
-                        .read<TransactionsBloc>()
-                        .add(TransactionDeleted(t.id)),
+                    onDismissed: (_) => _deleteWithUndo(context, t),
                     child: TransactionTile(
                       transaction: t,
                       currencyCode: currencyCode,
@@ -68,6 +66,21 @@ class TransactionsPage extends StatelessWidget {
         );
       },
     );
+  }
+
+  void _deleteWithUndo(BuildContext context, TransactionEntity t) {
+    final l = AppLocalizations.of(context);
+    final bloc = context.read<TransactionsBloc>();
+    bloc.add(TransactionDeleted(t.id));
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(
+        content: Text(l.transactionDeleted),
+        action: SnackBarAction(
+          label: l.undo,
+          onPressed: () => bloc.add(TransactionAdded(t)),
+        ),
+      ));
   }
 
   Widget _deleteBackground(BuildContext context) {

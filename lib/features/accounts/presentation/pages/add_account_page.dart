@@ -63,14 +63,35 @@ class _AddAccountPageState extends State<AddAccountPage> {
     super.dispose();
   }
 
-  void _save() {
+  Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
     final l = AppLocalizations.of(context);
+    final name = _nameController.text.trim();
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(_isEditing ? l.saveChangesQuestion : l.addAccountQuestion),
+        content: Text(
+          _isEditing ? l.saveAccountConfirm(name) : l.addAccountConfirm(name),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(l.cancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(l.confirm),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
     final opening =
         double.tryParse(_openingController.text.replaceAll(',', '.')) ?? 0;
     final account = AccountEntity(
       id: widget.initial?.id ?? const Uuid().v4(),
-      name: _nameController.text.trim(),
+      name: name,
       colorValue: _colorValue,
       iconId: _iconId,
       openingBalance: opening,

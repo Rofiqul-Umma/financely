@@ -119,7 +119,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
     if (picked != null) setState(() => _date = picked);
   }
 
-  void _save() {
+  Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
     final l = AppLocalizations.of(context);
     final messenger = ScaffoldMessenger.of(context);
@@ -168,6 +168,29 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
           ? null
           : _noteController.text.trim(),
     );
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          _isEditing ? l.saveChangesQuestion : l.addTransactionQuestion,
+        ),
+        content: Text(
+          _isEditing ? l.saveTransactionConfirm : l.addTransactionConfirm,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(l.cancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(l.confirm),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true || !mounted) return;
+
     context.read<TransactionsBloc>().add(TransactionAdded(transaction));
     Navigator.of(context).pop();
     ScaffoldMessenger.of(context)

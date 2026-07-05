@@ -158,6 +158,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cancel => 'Cancel';
 
   @override
+  String get undo => 'Undo';
+
+  @override
   String get transactionDeleted => 'Transaction deleted';
 
   @override
@@ -181,6 +184,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get saveTransaction => 'Save transaction';
+
+  @override
+  String get confirm => 'Confirm';
+
+  @override
+  String get saveChangesQuestion => 'Save changes?';
+
+  @override
+  String get addAccountQuestion => 'Add account?';
+
+  @override
+  String addAccountConfirm(String name) {
+    return 'Add \"$name\" to your accounts?';
+  }
+
+  @override
+  String saveAccountConfirm(String name) {
+    return 'Save changes to \"$name\"?';
+  }
+
+  @override
+  String get addTransactionQuestion => 'Add transaction?';
+
+  @override
+  String get addTransactionConfirm => 'Add this transaction?';
+
+  @override
+  String get saveTransactionConfirm => 'Save changes to this transaction?';
 
   @override
   String get editAccount => 'Edit Account';

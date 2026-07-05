@@ -158,6 +158,9 @@ class AppLocalizationsId extends AppLocalizations {
   String get cancel => 'Batal';
 
   @override
+  String get undo => 'Urungkan';
+
+  @override
   String get transactionDeleted => 'Transaksi dihapus';
 
   @override
@@ -181,6 +184,34 @@ class AppLocalizationsId extends AppLocalizations {
 
   @override
   String get saveTransaction => 'Simpan transaksi';
+
+  @override
+  String get confirm => 'Konfirmasi';
+
+  @override
+  String get saveChangesQuestion => 'Simpan perubahan?';
+
+  @override
+  String get addAccountQuestion => 'Tambah akun?';
+
+  @override
+  String addAccountConfirm(String name) {
+    return 'Tambahkan \"$name\" ke akun Anda?';
+  }
+
+  @override
+  String saveAccountConfirm(String name) {
+    return 'Simpan perubahan pada \"$name\"?';
+  }
+
+  @override
+  String get addTransactionQuestion => 'Tambah transaksi?';
+
+  @override
+  String get addTransactionConfirm => 'Tambahkan transaksi ini?';
+
+  @override
+  String get saveTransactionConfirm => 'Simpan perubahan pada transaksi ini?';
 
   @override
   String get editAccount => 'Ubah Akun';
