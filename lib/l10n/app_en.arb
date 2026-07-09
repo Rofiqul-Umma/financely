@@ -3,7 +3,7 @@
   "appTitle": "Financely",
 
   "navDashboard": "Dashboard",
-  "navTransactions": "Transactions",
+  "navTransactions": "History",
   "navAccounts": "Accounts",
   "navSettings": "Settings",
   "addExpense": "Add Expense",

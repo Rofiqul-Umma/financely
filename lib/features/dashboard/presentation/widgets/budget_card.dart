@@ -62,22 +62,33 @@ class BudgetCard extends StatelessWidget {
             const SizedBox(height: 12),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  l.budgetSpent(
-                      Formatters.currency(spent, code: currencyCode)),
-                  style: text.bodyMedium
-                      ?.copyWith(color: scheme.onSurfaceVariant),
+                Flexible(
+                  child: Text(
+                    l.budgetSpent(
+                        Formatters.currency(spent, code: currencyCode)),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: text.bodyMedium
+                        ?.copyWith(color: scheme.onSurfaceVariant),
+                  ),
                 ),
-                Text(
-                  overBudget
-                      ? l.budgetOver(Formatters.currency(remaining.abs(),
-                          code: currencyCode))
-                      : l.budgetLeft(
-                          Formatters.currency(remaining, code: currencyCode)),
-                  style: text.bodyMedium?.copyWith(
-                    color: overBudget ? scheme.error : scheme.onSurfaceVariant,
-                    fontWeight: FontWeight.w600,
+                const SizedBox(width: 12),
+                Flexible(
+                  child: Text(
+                    overBudget
+                        ? l.budgetOver(Formatters.currency(remaining.abs(),
+                            code: currencyCode))
+                        : l.budgetLeft(
+                            Formatters.currency(remaining, code: currencyCode)),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.end,
+                    style: text.bodyMedium?.copyWith(
+                      color: overBudget ? scheme.error : scheme.onSurfaceVariant,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ],

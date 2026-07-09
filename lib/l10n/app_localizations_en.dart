@@ -15,7 +15,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navDashboard => 'Dashboard';
 
   @override
-  String get navTransactions => 'Transactions';
+  String get navTransactions => 'History';
 
   @override
   String get navAccounts => 'Accounts';

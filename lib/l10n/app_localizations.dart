@@ -113,7 +113,7 @@ abstract class AppLocalizations {
   /// No description provided for @navTransactions.
   ///
   /// In en, this message translates to:
-  /// **'Transactions'**
+  /// **'History'**
   String get navTransactions;
 
   /// No description provided for @navAccounts.

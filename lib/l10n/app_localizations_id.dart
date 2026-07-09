@@ -15,7 +15,7 @@ class AppLocalizationsId extends AppLocalizations {
   String get navDashboard => 'Dasbor';
 
   @override
-  String get navTransactions => 'Transaksi';
+  String get navTransactions => 'Riwayat';
 
   @override
   String get navAccounts => 'Akun';
