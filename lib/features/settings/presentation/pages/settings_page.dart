@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +18,7 @@ import '../../../security/presentation/cubit/app_lock_cubit.dart';
 import '../../../security/presentation/pages/set_passcode_page.dart';
 import '../../domain/services/sync_service.dart';
 import '../../domain/usecases/export_transactions_csv.dart';
+import '../../domain/usecases/seed_dummy_data.dart';
 import '../cubit/settings_cubit.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -139,6 +141,17 @@ class SettingsPage extends StatelessWidget {
                       trailing: const Icon(Icons.chevron_right_rounded),
                       onTap: () => _runSync(context),
                     ),
+                    if (kDebugMode) ...[
+                      const Divider(),
+                      ListTile(
+                        leading: const Icon(Icons.science_outlined),
+                        title: const Text('Seed dummy data'),
+                        subtitle:
+                            const Text('Insert ~6 months of demo transactions'),
+                        trailing: const Icon(Icons.chevron_right_rounded),
+                        onTap: () => _seedDummyData(context),
+                      ),
+                    ],
                   ],
                 ),
                 const SizedBox(height: 24),
@@ -395,6 +408,25 @@ class SettingsPage extends StatelessWidget {
 
   String _fileDate(DateTime d) =>
       '${d.year.toString().padLeft(4, '0')}${d.month.toString().padLeft(2, '0')}${d.day.toString().padLeft(2, '0')}';
+
+  Future<void> _seedDummyData(BuildContext context) async {
+    final messenger = ScaffoldMessenger.of(context);
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(child: CircularProgressIndicator()),
+    );
+    try {
+      final count = await sl<SeedDummyData>()();
+      if (context.mounted) Navigator.of(context).pop();
+      messenger.showSnackBar(
+        SnackBar(content: Text('Inserted $count demo transactions')),
+      );
+    } catch (e) {
+      if (context.mounted) Navigator.of(context).pop();
+      messenger.showSnackBar(SnackBar(content: Text('Seed failed: $e')));
+    }
+  }
 
   Future<void> _runSync(BuildContext context) async {
     final messenger = ScaffoldMessenger.of(context);
