@@ -1,20 +1,33 @@
+import '../../../accounts/domain/entities/account.dart';
+import '../../../accounts/domain/usecases/account_balance.dart';
 import '../../../transactions/domain/entities/transaction.dart';
 import '../../../transactions/domain/entities/transaction_enums.dart';
 import '../entities/dashboard_summary.dart';
 
-/// Pure aggregation of a transaction list into dashboard metrics.
+/// Pure aggregation of accounts and transactions into dashboard metrics.
 class BuildDashboardSummary {
   const BuildDashboardSummary();
 
   static const int monthsShown = 6;
 
-  DashboardSummary call(List<TransactionEntity> transactions) {
-    if (transactions.isEmpty) return const DashboardSummary.empty();
+  DashboardSummary call(
+    List<TransactionEntity> transactions,
+    List<AccountEntity> accounts,
+  ) {
+    if (transactions.isEmpty && accounts.isEmpty) {
+      return const DashboardSummary.empty();
+    }
 
     final now = DateTime.now();
     final currentMonth = DateTime(now.year, now.month);
 
-    var totalBalance = 0.0;
+    // Total balance is the sum of every account's current balance
+    // (opening balance + its transactions), so it always includes the
+    // opening balance of newly added accounts.
+    final totalBalance = accounts.fold<double>(
+      0,
+      (sum, account) => sum + accountBalance(account, transactions),
+    );
     var monthIncome = 0.0;
     var monthExpense = 0.0;
 
@@ -28,8 +41,6 @@ class BuildDashboardSummary {
     final categoryTotals = <TransactionCategory, double>{};
 
     for (final t in transactions) {
-      totalBalance += t.signedAmount;
-
       final monthKey = DateTime(t.date.year, t.date.month);
       final bucket = buckets[monthKey];
       if (bucket != null) {

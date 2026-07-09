@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../features/accounts/data/datasources/account_local_datasource.dart';
 import '../../features/accounts/data/repositories/account_repository_impl.dart';
 import '../../features/accounts/domain/repositories/account_repository.dart';
+import '../../features/accounts/domain/usecases/watch_accounts.dart';
 import '../../features/accounts/presentation/cubit/accounts_cubit.dart';
 import '../../features/dashboard/domain/usecases/build_dashboard_summary.dart';
 import '../../features/dashboard/presentation/bloc/dashboard_bloc.dart';
@@ -56,13 +57,18 @@ Future<void> configureDependencies() async {
     ..registerLazySingleton(() => AccountLocalDataSource(sl()))
     ..registerLazySingleton<AccountRepository>(
         () => AccountRepositoryImpl(sl()))
+    ..registerLazySingleton(() => WatchAccounts(sl()))
     ..registerLazySingleton(() => AccountsCubit(sl()));
 
   // Dashboard feature.
   sl
     ..registerLazySingleton(() => const BuildDashboardSummary())
     ..registerFactory(
-      () => DashboardBloc(watchTransactions: sl(), buildSummary: sl()),
+      () => DashboardBloc(
+        watchTransactions: sl(),
+        watchAccounts: sl(),
+        buildSummary: sl(),
+      ),
     );
 
   // Settings feature.
