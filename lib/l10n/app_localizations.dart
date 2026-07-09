@@ -836,6 +836,36 @@ abstract class AppLocalizations {
   /// **'Export is unavailable on this device'**
   String get exportUnavailable;
 
+  /// No description provided for @exportRangeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export range'**
+  String get exportRangeTitle;
+
+  /// No description provided for @exportAllTime.
+  ///
+  /// In en, this message translates to:
+  /// **'All transactions'**
+  String get exportAllTime;
+
+  /// No description provided for @exportAllTimeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export your entire history'**
+  String get exportAllTimeSubtitle;
+
+  /// No description provided for @exportCustomRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom range'**
+  String get exportCustomRange;
+
+  /// No description provided for @exportCustomRangeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a start and end date'**
+  String get exportCustomRangeSubtitle;
+
   /// No description provided for @cloudSync.
   ///
   /// In en, this message translates to:

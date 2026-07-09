@@ -408,6 +408,21 @@ class AppLocalizationsId extends AppLocalizations {
   String get exportUnavailable => 'Ekspor tidak tersedia di perangkat ini';
 
   @override
+  String get exportRangeTitle => 'Rentang ekspor';
+
+  @override
+  String get exportAllTime => 'Semua transaksi';
+
+  @override
+  String get exportAllTimeSubtitle => 'Ekspor seluruh riwayat Anda';
+
+  @override
+  String get exportCustomRange => 'Rentang khusus';
+
+  @override
+  String get exportCustomRangeSubtitle => 'Pilih tanggal mulai dan akhir';
+
+  @override
   String get cloudSync => 'Sinkronisasi cloud';
 
   @override

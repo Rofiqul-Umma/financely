@@ -406,6 +406,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportUnavailable => 'Export is unavailable on this device';
 
   @override
+  String get exportRangeTitle => 'Export range';
+
+  @override
+  String get exportAllTime => 'All transactions';
+
+  @override
+  String get exportAllTimeSubtitle => 'Export your entire history';
+
+  @override
+  String get exportCustomRange => 'Custom range';
+
+  @override
+  String get exportCustomRangeSubtitle => 'Pick a start and end date';
+
+  @override
   String get cloudSync => 'Cloud sync';
 
   @override

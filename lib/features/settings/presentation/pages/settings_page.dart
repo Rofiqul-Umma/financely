@@ -314,12 +314,71 @@ class SettingsPage extends StatelessWidget {
   }
 
   Future<void> _exportCsv(BuildContext context) async {
+    final choice = await showModalBottomSheet<_ExportChoice>(
+      context: context,
+      showDragHandle: true,
+      builder: (sheetContext) {
+        final l = AppLocalizations.of(sheetContext);
+        return SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 4, 20, 12),
+                child: Text(
+                  l.exportRangeTitle,
+                  style: Theme.of(sheetContext).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                ),
+              ),
+              ListTile(
+                leading: const Icon(Icons.all_inclusive_rounded),
+                title: Text(l.exportAllTime),
+                subtitle: Text(l.exportAllTimeSubtitle),
+                onTap: () =>
+                    Navigator.pop(sheetContext, _ExportChoice.allTime),
+              ),
+              ListTile(
+                leading: const Icon(Icons.date_range_rounded),
+                title: Text(l.exportCustomRange),
+                subtitle: Text(l.exportCustomRangeSubtitle),
+                onTap: () => Navigator.pop(sheetContext, _ExportChoice.custom),
+              ),
+              const SizedBox(height: 8),
+            ],
+          ),
+        );
+      },
+    );
+    if (choice == null || !context.mounted) return;
+
+    DateTime? start;
+    DateTime? end;
+    if (choice == _ExportChoice.custom) {
+      final now = DateTime.now();
+      final today = DateTime(now.year, now.month, now.day);
+      final picked = await showDateRangePicker(
+        context: context,
+        firstDate: DateTime(2000),
+        lastDate: today,
+      );
+      if (picked == null || !context.mounted) return;
+      start = DateTime(picked.start.year, picked.start.month, picked.start.day);
+      end = DateTime(
+          picked.end.year, picked.end.month, picked.end.day, 23, 59, 59, 999);
+    }
+
     final messenger = ScaffoldMessenger.of(context);
     final unavailable = AppLocalizations.of(context).exportUnavailable;
     try {
-      final csv = await sl<ExportTransactionsCsv>()();
+      final csv = await sl<ExportTransactionsCsv>()(start: start, end: end);
       final dir = await getTemporaryDirectory();
-      final file = File(p.join(dir.path, 'financely_export.csv'));
+      final suffix = start != null && end != null
+          ? '_${_fileDate(start)}_${_fileDate(end)}'
+          : '';
+      final file = File(p.join(dir.path, 'financely_export$suffix.csv'));
       await file.writeAsString(csv);
       await SharePlus.instance.share(
         ShareParams(
@@ -334,6 +393,9 @@ class SettingsPage extends StatelessWidget {
     }
   }
 
+  String _fileDate(DateTime d) =>
+      '${d.year.toString().padLeft(4, '0')}${d.month.toString().padLeft(2, '0')}${d.day.toString().padLeft(2, '0')}';
+
   Future<void> _runSync(BuildContext context) async {
     final messenger = ScaffoldMessenger.of(context);
     showDialog(
@@ -346,6 +408,8 @@ class SettingsPage extends StatelessWidget {
     messenger.showSnackBar(SnackBar(content: Text(result.message)));
   }
 }
+
+enum _ExportChoice { allTime, custom }
 
 class _SectionHeader extends StatelessWidget {
   final String title;

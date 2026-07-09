@@ -10,8 +10,15 @@ class ExportTransactionsCsv {
   final AccountRepository _accounts;
   const ExportTransactionsCsv(this._repository, this._accounts);
 
-  Future<String> call() async {
-    final transactions = await _repository.getAll();
+  /// Serialises transactions to CSV, optionally limited to [start]..[end]
+  /// (inclusive). Passing null bounds exports the full history.
+  Future<String> call({DateTime? start, DateTime? end}) async {
+    final all = await _repository.getAll();
+    final transactions = all.where((t) {
+      if (start != null && t.date.isBefore(start)) return false;
+      if (end != null && t.date.isAfter(end)) return false;
+      return true;
+    }).toList();
     final accounts = await _accounts.getAll();
     final names = {for (final a in accounts) a.id: a.name};
 
