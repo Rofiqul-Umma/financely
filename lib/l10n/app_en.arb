@@ -15,6 +15,9 @@
   "filterNoResults": "No transactions in this range",
   "filterDateRange": "Date range",
 
+  "currencyUpdating": "Updating exchange rates…",
+  "currencyUpdateFailed": "Couldn't fetch exchange rates. Currency unchanged.",
+
   "balanceTotalBalance": "Total Balance",
   "balanceIncome": "Income",
   "balanceSpent": "Spent",

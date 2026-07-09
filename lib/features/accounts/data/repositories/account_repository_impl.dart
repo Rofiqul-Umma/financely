@@ -23,4 +23,8 @@ class AccountRepositoryImpl implements AccountRepository {
 
   @override
   Future<void> delete(String id) => _local.delete(id);
+
+  @override
+  Future<void> scaleOpeningBalances(double factor) =>
+      _local.scaleOpeningBalances(factor);
 }

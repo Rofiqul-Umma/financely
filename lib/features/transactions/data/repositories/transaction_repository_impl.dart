@@ -27,4 +27,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
 
   @override
   Future<void> delete(String id) => _local.delete(id);
+
+  @override
+  Future<void> scaleAmounts(double factor) => _local.scaleAmounts(factor);
 }

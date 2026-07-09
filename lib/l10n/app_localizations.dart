@@ -170,6 +170,18 @@ abstract class AppLocalizations {
   /// **'Date range'**
   String get filterDateRange;
 
+  /// No description provided for @currencyUpdating.
+  ///
+  /// In en, this message translates to:
+  /// **'Updating exchange rates…'**
+  String get currencyUpdating;
+
+  /// No description provided for @currencyUpdateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t fetch exchange rates. Currency unchanged.'**
+  String get currencyUpdateFailed;
+
   /// No description provided for @balanceTotalBalance.
   ///
   /// In en, this message translates to:

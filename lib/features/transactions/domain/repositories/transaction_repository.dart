@@ -11,4 +11,7 @@ abstract interface class TransactionRepository {
   Future<void> update(TransactionEntity transaction);
 
   Future<void> delete(String id);
+
+  /// Multiplies every stored amount by [factor] (used on currency change).
+  Future<void> scaleAmounts(double factor);
 }

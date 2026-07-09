@@ -35,6 +35,16 @@ class TransactionLocalDataSource {
   Future<void> delete(String id) =>
       (_db.delete(_db.transactionRows)..where((t) => t.id.equals(id))).go();
 
+  Future<void> scaleAmounts(double factor) async {
+    await _db.customUpdate(
+      'UPDATE "${_db.transactionRows.actualTableName}" '
+      'SET amount = amount * ?',
+      variables: [Variable.withReal(factor)],
+      updates: {_db.transactionRows},
+      updateKind: UpdateKind.update,
+    );
+  }
+
   Future<int> count() async {
     final countExp = _db.transactionRows.id.count();
     final query = _db.selectOnly(_db.transactionRows)..addColumns([countExp]);

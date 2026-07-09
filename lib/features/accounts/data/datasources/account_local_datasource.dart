@@ -31,6 +31,16 @@ class AccountLocalDataSource {
   Future<void> delete(String id) =>
       (_db.delete(_db.accountRows)..where((a) => a.id.equals(id))).go();
 
+  Future<void> scaleOpeningBalances(double factor) async {
+    await _db.customUpdate(
+      'UPDATE "${_db.accountRows.actualTableName}" '
+      'SET opening_balance = opening_balance * ?',
+      variables: [Variable.withReal(factor)],
+      updates: {_db.accountRows},
+      updateKind: UpdateKind.update,
+    );
+  }
+
   Future<int> count() async {
     final countExp = _db.accountRows.id.count();
     final query = _db.selectOnly(_db.accountRows)..addColumns([countExp]);

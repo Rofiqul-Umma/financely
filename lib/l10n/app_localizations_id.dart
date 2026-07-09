@@ -45,6 +45,13 @@ class AppLocalizationsId extends AppLocalizations {
   String get filterDateRange => 'Rentang tanggal';
 
   @override
+  String get currencyUpdating => 'Memperbarui nilai tukar…';
+
+  @override
+  String get currencyUpdateFailed =>
+      'Gagal mengambil nilai tukar. Mata uang tidak diubah.';
+
+  @override
   String get balanceTotalBalance => 'Total Saldo';
 
   @override

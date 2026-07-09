@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../features/accounts/data/datasources/account_local_datasource.dart';
@@ -6,6 +7,10 @@ import '../../features/accounts/data/repositories/account_repository_impl.dart';
 import '../../features/accounts/domain/repositories/account_repository.dart';
 import '../../features/accounts/domain/usecases/watch_accounts.dart';
 import '../../features/accounts/presentation/cubit/accounts_cubit.dart';
+import '../../features/currency/data/exchange_rate_remote_datasource.dart';
+import '../../features/currency/data/exchange_rate_repository_impl.dart';
+import '../../features/currency/domain/repositories/exchange_rate_repository.dart';
+import '../../features/currency/domain/usecases/change_currency.dart';
 import '../../features/dashboard/domain/usecases/build_dashboard_summary.dart';
 import '../../features/dashboard/presentation/bloc/dashboard_bloc.dart';
 import '../../features/security/data/app_reset_repository_impl.dart';
@@ -34,7 +39,15 @@ Future<void> configureDependencies() async {
   final prefs = await SharedPreferences.getInstance();
   sl
     ..registerSingleton<SharedPreferences>(prefs)
-    ..registerSingleton<AppDatabase>(AppDatabase());
+    ..registerSingleton<AppDatabase>(AppDatabase())
+    ..registerLazySingleton(() => http.Client());
+
+  // Currency exchange.
+  sl
+    ..registerLazySingleton(() => ExchangeRateRemoteDataSource(sl()))
+    ..registerLazySingleton<ExchangeRateRepository>(
+        () => ExchangeRateRepositoryImpl(sl(), sl()))
+    ..registerLazySingleton(() => ChangeCurrency(sl(), sl(), sl()));
 
   // Transactions feature.
   sl
@@ -77,7 +90,7 @@ Future<void> configureDependencies() async {
         () => SettingsRepositoryImpl(sl()))
     ..registerLazySingleton<SyncService>(StubSyncService.new)
     ..registerLazySingleton(() => ExportTransactionsCsv(sl(), sl()))
-    ..registerLazySingleton(() => SettingsCubit(sl()));
+    ..registerLazySingleton(() => SettingsCubit(sl(), sl()));
 
   // Security feature.
   sl

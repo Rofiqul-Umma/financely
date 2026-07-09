@@ -1,13 +1,16 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
+import '../../../currency/domain/usecases/change_currency.dart';
 import '../../domain/entities/app_settings.dart';
 import '../../domain/repositories/settings_repository.dart';
 
 class SettingsCubit extends Cubit<AppSettings> {
   final SettingsRepository _repository;
+  final ChangeCurrency _changeCurrency;
 
-  SettingsCubit(this._repository) : super(AppSettings.defaults());
+  SettingsCubit(this._repository, this._changeCurrency)
+      : super(AppSettings.defaults());
 
   Future<void> load() async {
     emit(await _repository.load());
@@ -27,8 +30,23 @@ class SettingsCubit extends Cubit<AppSettings> {
   Future<void> setUseDynamicColor(bool value) =>
       _update(state.copyWith(useDynamicColor: value));
 
-  Future<void> setCurrency(String code) =>
-      _update(state.copyWith(currencyCode: code));
+  /// Converts all stored amounts to [code] via live rates, then switches the
+  /// currency. Returns false (leaving the currency unchanged) if rates can't be
+  /// fetched and none are cached.
+  Future<bool> setCurrency(String code) async {
+    final from = state.currencyCode;
+    if (from == code) return true;
+    try {
+      final factor = await _changeCurrency(from: from, to: code);
+      await _update(state.copyWith(
+        currencyCode: code,
+        monthlyBudget: state.monthlyBudget * factor,
+      ));
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
 
   Future<void> setMonthlyBudget(double budget) =>
       _update(state.copyWith(monthlyBudget: budget));

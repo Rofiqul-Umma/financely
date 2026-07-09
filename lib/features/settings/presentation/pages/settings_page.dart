@@ -230,7 +230,29 @@ class SettingsPage extends StatelessWidget {
         ),
       ),
     );
-    if (code != null) await cubit.setCurrency(code);
+    if (code == null || code == cubit.state.currencyCode) return;
+    if (!context.mounted) return;
+
+    final l = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => AlertDialog(
+        content: Row(
+          children: [
+            const CircularProgressIndicator(),
+            const SizedBox(width: 20),
+            Expanded(child: Text(l.currencyUpdating)),
+          ],
+        ),
+      ),
+    );
+    final ok = await cubit.setCurrency(code);
+    if (context.mounted) Navigator.of(context).pop();
+    if (!ok) {
+      messenger.showSnackBar(SnackBar(content: Text(l.currencyUpdateFailed)));
+    }
   }
 
   Future<void> _pickFont(BuildContext context, SettingsCubit cubit) async {

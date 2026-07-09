@@ -45,6 +45,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get filterDateRange => 'Date range';
 
   @override
+  String get currencyUpdating => 'Updating exchange rates…';
+
+  @override
+  String get currencyUpdateFailed =>
+      'Couldn\'t fetch exchange rates. Currency unchanged.';
+
+  @override
   String get balanceTotalBalance => 'Total Balance';
 
   @override

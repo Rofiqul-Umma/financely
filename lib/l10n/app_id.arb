@@ -15,6 +15,9 @@
   "filterNoResults": "Tidak ada transaksi pada rentang ini",
   "filterDateRange": "Rentang tanggal",
 
+  "currencyUpdating": "Memperbarui nilai tukar…",
+  "currencyUpdateFailed": "Gagal mengambil nilai tukar. Mata uang tidak diubah.",
+
   "balanceTotalBalance": "Total Saldo",
   "balanceIncome": "Pemasukan",
   "balanceSpent": "Pengeluaran",
