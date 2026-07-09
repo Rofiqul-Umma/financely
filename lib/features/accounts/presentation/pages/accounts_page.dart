@@ -11,6 +11,8 @@ import '../cubit/accounts_cubit.dart';
 import '../utils/account_visuals.dart';
 import 'add_account_page.dart';
 
+const _kBalanceMask = '••••••';
+
 class AccountsPage extends StatelessWidget {
   const AccountsPage({super.key});
 
@@ -21,6 +23,8 @@ class AccountsPage extends StatelessWidget {
         context.watch<TransactionsBloc>().state.transactions;
     final currencyCode =
         context.select((SettingsCubit c) => c.state.currencyCode);
+    final obscure =
+        context.select((SettingsCubit c) => c.state.hideBalances);
 
     final total = accounts.fold<double>(
       0,
@@ -36,7 +40,11 @@ class AccountsPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                _NetWorthCard(total: total, currencyCode: currencyCode),
+                _NetWorthCard(
+                  total: total,
+                  currencyCode: currencyCode,
+                  obscure: obscure,
+                ),
                 const SizedBox(height: 12),
                 Align(
                   alignment: Alignment.centerRight,
@@ -55,6 +63,7 @@ class AccountsPage extends StatelessWidget {
                       account: account,
                       balance: accountBalance(account, transactions),
                       currencyCode: currencyCode,
+                      obscure: obscure,
                       onTap: () =>
                           AddAccountPage.show(context, initial: account),
                     ),
@@ -70,12 +79,18 @@ class AccountsPage extends StatelessWidget {
 class _NetWorthCard extends StatelessWidget {
   final double total;
   final String currencyCode;
+  final bool obscure;
 
-  const _NetWorthCard({required this.total, required this.currencyCode});
+  const _NetWorthCard({
+    required this.total,
+    required this.currencyCode,
+    required this.obscure,
+  });
 
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
+    final l = AppLocalizations.of(context);
     return Card(
       color: scheme.primaryContainer,
       child: Padding(
@@ -83,16 +98,36 @@ class _NetWorthCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              AppLocalizations.of(context).totalAcrossAccounts,
-              style: TextStyle(color: scheme.onPrimaryContainer),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    l.totalAcrossAccounts,
+                    style: TextStyle(color: scheme.onPrimaryContainer),
+                  ),
+                ),
+                IconButton(
+                  visualDensity: VisualDensity.compact,
+                  tooltip: obscure ? l.showBalance : l.hideBalance,
+                  onPressed: () =>
+                      context.read<SettingsCubit>().toggleHideBalances(),
+                  icon: Icon(
+                    obscure
+                        ? Icons.visibility_off_rounded
+                        : Icons.visibility_rounded,
+                    color: scheme.onPrimaryContainer,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 6),
             FittedBox(
               fit: BoxFit.scaleDown,
               alignment: Alignment.centerLeft,
               child: Text(
-                Formatters.currency(total, code: currencyCode),
+                obscure
+                    ? _kBalanceMask
+                    : Formatters.currency(total, code: currencyCode),
                 maxLines: 1,
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       color: scheme.onPrimaryContainer,
@@ -111,12 +146,14 @@ class _AccountCard extends StatelessWidget {
   final AccountEntity account;
   final double balance;
   final String currencyCode;
+  final bool obscure;
   final VoidCallback onTap;
 
   const _AccountCard({
     required this.account,
     required this.balance,
     required this.currencyCode,
+    required this.obscure,
     required this.onTap,
   });
 
@@ -147,7 +184,9 @@ class _AccountCard extends StatelessWidget {
             fit: BoxFit.scaleDown,
             alignment: Alignment.centerRight,
             child: Text(
-              Formatters.currency(balance, code: currencyCode),
+              obscure
+                  ? _kBalanceMask
+                  : Formatters.currency(balance, code: currencyCode),
               maxLines: 1,
               style: TextStyle(
                 fontWeight: FontWeight.w700,

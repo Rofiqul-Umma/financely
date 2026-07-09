@@ -36,6 +36,12 @@ class AppLocalizationsId extends AppLocalizations {
   String get balanceSpent => 'Pengeluaran';
 
   @override
+  String get hideBalance => 'Sembunyikan saldo';
+
+  @override
+  String get showBalance => 'Tampilkan saldo';
+
+  @override
   String get budgetMonthlyBudget => 'Anggaran Bulanan';
 
   @override

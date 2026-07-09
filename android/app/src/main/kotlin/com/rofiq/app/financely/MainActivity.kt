@@ -1,4 +1,4 @@
-package com.example.financely
+package com.rofiq.app.financely
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 

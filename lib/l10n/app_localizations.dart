@@ -152,6 +152,18 @@ abstract class AppLocalizations {
   /// **'Spent'**
   String get balanceSpent;
 
+  /// No description provided for @hideBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide balance'**
+  String get hideBalance;
+
+  /// No description provided for @showBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Show balance'**
+  String get showBalance;
+
   /// No description provided for @budgetMonthlyBudget.
   ///
   /// In en, this message translates to:

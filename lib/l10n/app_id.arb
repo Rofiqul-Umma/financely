@@ -11,6 +11,8 @@
   "balanceTotalBalance": "Total Saldo",
   "balanceIncome": "Pemasukan",
   "balanceSpent": "Pengeluaran",
+  "hideBalance": "Sembunyikan saldo",
+  "showBalance": "Tampilkan saldo",
 
   "budgetMonthlyBudget": "Anggaran Bulanan",
   "budgetSpent": "{amount} terpakai",

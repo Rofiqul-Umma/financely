@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/utils/formatters.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../../settings/presentation/cubit/settings_cubit.dart';
+
+const _kBalanceMask = '••••••';
 
 class BalanceCard extends StatelessWidget {
   final double totalBalance;
   final double monthIncome;
   final double monthExpense;
   final String currencyCode;
+  final bool obscure;
 
   const BalanceCard({
     super.key,
@@ -15,6 +20,7 @@ class BalanceCard extends StatelessWidget {
     required this.monthIncome,
     required this.monthExpense,
     required this.currencyCode,
+    this.obscure = false,
   });
 
   @override
@@ -36,18 +42,38 @@ class BalanceCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            l.balanceTotalBalance,
-            style: text.labelLarge?.copyWith(
-              color: scheme.onPrimary.withValues(alpha: 0.85),
-            ),
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  l.balanceTotalBalance,
+                  style: text.labelLarge?.copyWith(
+                    color: scheme.onPrimary.withValues(alpha: 0.85),
+                  ),
+                ),
+              ),
+              IconButton(
+                visualDensity: VisualDensity.compact,
+                tooltip: obscure ? l.showBalance : l.hideBalance,
+                onPressed: () =>
+                    context.read<SettingsCubit>().toggleHideBalances(),
+                icon: Icon(
+                  obscure
+                      ? Icons.visibility_off_rounded
+                      : Icons.visibility_rounded,
+                  color: scheme.onPrimary.withValues(alpha: 0.85),
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 8),
           FittedBox(
             fit: BoxFit.scaleDown,
             alignment: Alignment.centerLeft,
             child: Text(
-              Formatters.currency(totalBalance, code: currencyCode),
+              obscure
+                  ? _kBalanceMask
+                  : Formatters.currency(totalBalance, code: currencyCode),
               maxLines: 1,
               style: text.displaySmall?.copyWith(
                 color: scheme.onPrimary,
@@ -62,7 +88,9 @@ class BalanceCard extends StatelessWidget {
                 child: _MiniStat(
                   icon: Icons.south_west_rounded,
                   label: l.balanceIncome,
-                  value: Formatters.currency(monthIncome, code: currencyCode),
+                  value: obscure
+                      ? _kBalanceMask
+                      : Formatters.currency(monthIncome, code: currencyCode),
                   onColor: scheme.onPrimary,
                 ),
               ),
@@ -75,7 +103,9 @@ class BalanceCard extends StatelessWidget {
                 child: _MiniStat(
                   icon: Icons.north_east_rounded,
                   label: l.balanceSpent,
-                  value: Formatters.currency(monthExpense, code: currencyCode),
+                  value: obscure
+                      ? _kBalanceMask
+                      : Formatters.currency(monthExpense, code: currencyCode),
                   onColor: scheme.onPrimary,
                 ),
               ),

@@ -15,6 +15,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
   static const _kBudget = 'settings.monthlyBudget';
   static const _kLanguage = 'settings.language';
   static const _kFont = 'settings.fontFamily';
+  static const _kHideBalances = 'settings.hideBalances';
 
   @override
   Future<AppSettings> load() async {
@@ -28,6 +29,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
       monthlyBudget: _prefs.getDouble(_kBudget) ?? defaults.monthlyBudget,
       languageCode: _prefs.getString(_kLanguage) ?? defaults.languageCode,
       fontFamily: _prefs.getString(_kFont) ?? defaults.fontFamily,
+      hideBalances: _prefs.getBool(_kHideBalances) ?? defaults.hideBalances,
     );
   }
 
@@ -41,6 +43,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
       _prefs.setDouble(_kBudget, settings.monthlyBudget),
       _prefs.setString(_kLanguage, settings.languageCode),
       _prefs.setString(_kFont, settings.fontFamily),
+      _prefs.setBool(_kHideBalances, settings.hideBalances),
     ]);
   }
 }

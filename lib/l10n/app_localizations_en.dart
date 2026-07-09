@@ -36,6 +36,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get balanceSpent => 'Spent';
 
   @override
+  String get hideBalance => 'Hide balance';
+
+  @override
+  String get showBalance => 'Show balance';
+
+  @override
   String get budgetMonthlyBudget => 'Monthly Budget';
 
   @override

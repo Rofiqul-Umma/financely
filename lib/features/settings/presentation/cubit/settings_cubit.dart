@@ -38,4 +38,7 @@ class SettingsCubit extends Cubit<AppSettings> {
 
   Future<void> setFontFamily(String family) =>
       _update(state.copyWith(fontFamily: family));
+
+  Future<void> toggleHideBalances() =>
+      _update(state.copyWith(hideBalances: !state.hideBalances));
 }

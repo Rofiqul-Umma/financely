@@ -11,6 +11,8 @@
   "balanceTotalBalance": "Total Balance",
   "balanceIncome": "Income",
   "balanceSpent": "Spent",
+  "hideBalance": "Hide balance",
+  "showBalance": "Show balance",
 
   "budgetMonthlyBudget": "Monthly Budget",
   "budgetSpent": "{amount} spent",

@@ -32,6 +32,7 @@ class DashboardPage extends StatelessWidget {
           monthIncome: summary.monthIncome,
           monthExpense: summary.monthExpense,
           currencyCode: settings.currencyCode,
+          obscure: settings.hideBalances,
         );
         final budget = BudgetCard(
           spent: summary.monthExpense,

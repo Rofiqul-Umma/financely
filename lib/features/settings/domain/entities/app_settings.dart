@@ -16,6 +16,9 @@ class AppSettings extends Equatable {
   /// Font family name as registered in pubspec.yaml.
   final String fontFamily;
 
+  /// When true, balance totals are masked on the dashboard and accounts pages.
+  final bool hideBalances;
+
   const AppSettings({
     required this.seedColorValue,
     required this.themeMode,
@@ -24,6 +27,7 @@ class AppSettings extends Equatable {
     required this.monthlyBudget,
     required this.languageCode,
     required this.fontFamily,
+    required this.hideBalances,
   });
 
   factory AppSettings.defaults() => AppSettings(
@@ -34,6 +38,7 @@ class AppSettings extends Equatable {
         monthlyBudget: 2000,
         languageCode: 'en',
         fontFamily: 'Roboto',
+        hideBalances: false,
       );
 
   Color get seedColor => Color(seedColorValue);
@@ -46,6 +51,7 @@ class AppSettings extends Equatable {
     double? monthlyBudget,
     String? languageCode,
     String? fontFamily,
+    bool? hideBalances,
   }) {
     return AppSettings(
       seedColorValue: seedColorValue ?? this.seedColorValue,
@@ -55,6 +61,7 @@ class AppSettings extends Equatable {
       monthlyBudget: monthlyBudget ?? this.monthlyBudget,
       languageCode: languageCode ?? this.languageCode,
       fontFamily: fontFamily ?? this.fontFamily,
+      hideBalances: hideBalances ?? this.hideBalances,
     );
   }
 
@@ -67,5 +74,6 @@ class AppSettings extends Equatable {
         monthlyBudget,
         languageCode,
         fontFamily,
+        hideBalances,
       ];
 }
