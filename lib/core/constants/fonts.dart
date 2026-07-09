@@ -13,6 +13,10 @@ const List<AppFont> kAppFonts = <AppFont>[
   AppFont(family: 'Poppins', name: 'Poppins'),
   AppFont(family: 'RobotoSlab', name: 'Roboto Slab'),
   AppFont(family: 'ElmsSans', name: 'Elms Sans'),
+  AppFont(family: 'GeistPixel', name: 'Geist Pixel'),
+  AppFont(family: 'GoogleSans', name: 'Google Sans'),
+  AppFont(family: 'GoogleSansCode', name: 'Google Sans Code'),
+  AppFont(family: 'ShadowsIntoLight', name: 'Shadows Into Light'),
 ];
 
 final Map<String, AppFont> kFontByFamily = {

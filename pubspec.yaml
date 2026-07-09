@@ -74,6 +74,18 @@ flutter:
     - family: ElmsSans
       fonts:
         - asset: assets/fonts/ElmsSans.ttf
+    - family: GeistPixel
+      fonts:
+        - asset: assets/fonts/GeistPixel.ttf
+    - family: GoogleSans
+      fonts:
+        - asset: assets/fonts/GoogleSans.ttf
+    - family: GoogleSansCode
+      fonts:
+        - asset: assets/fonts/GoogleSansCode.ttf
+    - family: ShadowsIntoLight
+      fonts:
+        - asset: assets/fonts/ShadowsIntoLight.ttf
 
 # App launcher icons for Android & iOS. Regenerate with:
 #   dart run flutter_launcher_icons
