@@ -28,6 +28,7 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
     on<_TransactionsUpdated>(_onUpdated);
     on<TransactionAdded>(_onAdded);
     on<TransactionDeleted>(_onDeleted);
+    on<TransactionsFilterChanged>(_onFilterChanged);
   }
 
   Future<void> _onSubscribe(
@@ -69,6 +70,18 @@ class TransactionsBloc extends Bloc<TransactionsEvent, TransactionsState> {
     Emitter<TransactionsState> emit,
   ) async {
     await _deleteTransaction(event.id);
+  }
+
+  void _onFilterChanged(
+    TransactionsFilterChanged event,
+    Emitter<TransactionsState> emit,
+  ) {
+    final cleared = event.start == null && event.end == null;
+    emit(state.copyWith(
+      filterStart: event.start,
+      filterEnd: event.end,
+      clearFilter: cleared,
+    ));
   }
 
   @override

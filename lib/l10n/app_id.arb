@@ -8,6 +8,13 @@
   "navSettings": "Pengaturan",
   "addExpense": "Tambah Transaksi",
 
+  "filterAllTime": "Semua waktu",
+  "filterThisMonth": "Bulan ini",
+  "filterLast30Days": "30 hari terakhir",
+  "filterClear": "Hapus filter",
+  "filterNoResults": "Tidak ada transaksi pada rentang ini",
+  "filterDateRange": "Rentang tanggal",
+
   "balanceTotalBalance": "Total Saldo",
   "balanceIncome": "Pemasukan",
   "balanceSpent": "Pengeluaran",

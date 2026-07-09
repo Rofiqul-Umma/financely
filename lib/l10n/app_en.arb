@@ -8,6 +8,13 @@
   "navSettings": "Settings",
   "addExpense": "Add Expense",
 
+  "filterAllTime": "All time",
+  "filterThisMonth": "This month",
+  "filterLast30Days": "Last 30 days",
+  "filterClear": "Clear filter",
+  "filterNoResults": "No transactions in this range",
+  "filterDateRange": "Date range",
+
   "balanceTotalBalance": "Total Balance",
   "balanceIncome": "Income",
   "balanceSpent": "Spent",

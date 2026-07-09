@@ -27,6 +27,24 @@ class AppLocalizationsId extends AppLocalizations {
   String get addExpense => 'Tambah Transaksi';
 
   @override
+  String get filterAllTime => 'Semua waktu';
+
+  @override
+  String get filterThisMonth => 'Bulan ini';
+
+  @override
+  String get filterLast30Days => '30 hari terakhir';
+
+  @override
+  String get filterClear => 'Hapus filter';
+
+  @override
+  String get filterNoResults => 'Tidak ada transaksi pada rentang ini';
+
+  @override
+  String get filterDateRange => 'Rentang tanggal';
+
+  @override
   String get balanceTotalBalance => 'Total Saldo';
 
   @override

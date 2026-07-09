@@ -134,6 +134,42 @@ abstract class AppLocalizations {
   /// **'Add Expense'**
   String get addExpense;
 
+  /// No description provided for @filterAllTime.
+  ///
+  /// In en, this message translates to:
+  /// **'All time'**
+  String get filterAllTime;
+
+  /// No description provided for @filterThisMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'This month'**
+  String get filterThisMonth;
+
+  /// No description provided for @filterLast30Days.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 30 days'**
+  String get filterLast30Days;
+
+  /// No description provided for @filterClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear filter'**
+  String get filterClear;
+
+  /// No description provided for @filterNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'No transactions in this range'**
+  String get filterNoResults;
+
+  /// No description provided for @filterDateRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Date range'**
+  String get filterDateRange;
+
   /// No description provided for @balanceTotalBalance.
   ///
   /// In en, this message translates to:

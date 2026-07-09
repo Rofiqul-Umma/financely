@@ -35,3 +35,13 @@ class TransactionDeleted extends TransactionsEvent {
   @override
   List<Object?> get props => [id];
 }
+
+/// Sets or clears the date-range filter. A null [start] and [end] clears it.
+class TransactionsFilterChanged extends TransactionsEvent {
+  final DateTime? start;
+  final DateTime? end;
+  const TransactionsFilterChanged({this.start, this.end});
+
+  @override
+  List<Object?> get props => [start, end];
+}

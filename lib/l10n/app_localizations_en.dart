@@ -27,6 +27,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addExpense => 'Add Expense';
 
   @override
+  String get filterAllTime => 'All time';
+
+  @override
+  String get filterThisMonth => 'This month';
+
+  @override
+  String get filterLast30Days => 'Last 30 days';
+
+  @override
+  String get filterClear => 'Clear filter';
+
+  @override
+  String get filterNoResults => 'No transactions in this range';
+
+  @override
+  String get filterDateRange => 'Date range';
+
+  @override
   String get balanceTotalBalance => 'Total Balance';
 
   @override
