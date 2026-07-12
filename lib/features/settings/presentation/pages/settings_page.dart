@@ -1,11 +1,9 @@
-import 'dart:io';
+import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' as p;
 import 'package:share_plus/share_plus.dart';
 
 import '../../../../core/constants/currencies.dart';
@@ -387,15 +385,18 @@ class SettingsPage extends StatelessWidget {
     final unavailable = AppLocalizations.of(context).exportUnavailable;
     try {
       final csv = await sl<ExportTransactionsCsv>()(start: start, end: end);
-      final dir = await getTemporaryDirectory();
       final suffix = start != null && end != null
           ? '_${_fileDate(start)}_${_fileDate(end)}'
           : '';
-      final file = File(p.join(dir.path, 'financely_export$suffix.csv'));
-      await file.writeAsString(csv);
       await SharePlus.instance.share(
         ShareParams(
-          files: [XFile(file.path, mimeType: 'text/csv')],
+          files: [
+            XFile.fromData(
+              Uint8List.fromList(utf8.encode(csv)),
+              mimeType: 'text/csv',
+              name: 'financely_export$suffix.csv',
+            ),
+          ],
           subject: 'Financely transactions',
         ),
       );
