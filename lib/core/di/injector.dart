@@ -23,6 +23,7 @@ import '../../features/settings/data/settings_repository_impl.dart';
 import '../../features/settings/domain/repositories/settings_repository.dart';
 import '../../features/settings/domain/services/sync_service.dart';
 import '../../features/settings/domain/usecases/export_transactions_csv.dart';
+import '../../features/settings/domain/usecases/import_transactions_csv.dart';
 import '../../features/settings/domain/usecases/seed_dummy_data.dart';
 import '../../features/settings/presentation/cubit/settings_cubit.dart';
 import '../../features/transactions/data/datasources/transaction_local_datasource.dart';
@@ -91,6 +92,7 @@ Future<void> configureDependencies() async {
         () => SettingsRepositoryImpl(sl()))
     ..registerLazySingleton<SyncService>(StubSyncService.new)
     ..registerLazySingleton(() => ExportTransactionsCsv(sl(), sl()))
+    ..registerLazySingleton(() => ImportTransactionsCsv(sl(), sl()))
     ..registerLazySingleton(() => SeedDummyData(sl(), sl()))
     ..registerLazySingleton(() => SettingsCubit(sl(), sl()));
 

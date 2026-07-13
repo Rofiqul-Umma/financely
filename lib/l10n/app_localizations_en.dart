@@ -421,6 +421,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get exportCustomRangeSubtitle => 'Pick a start and end date';
 
   @override
+  String get importFromCsv => 'Import from CSV';
+
+  @override
+  String get importSubtitle => 'Add transactions from an exported file';
+
+  @override
+  String importSuccess(int count) {
+    return 'Imported $count transactions';
+  }
+
+  @override
+  String get importEmpty => 'No transactions found in that file';
+
+  @override
+  String get importUnavailable => 'Import failed. Please pick a valid CSV file';
+
+  @override
   String get cloudSync => 'Cloud sync';
 
   @override

@@ -175,6 +175,16 @@
   "exportAllTimeSubtitle": "Export your entire history",
   "exportCustomRange": "Custom range",
   "exportCustomRangeSubtitle": "Pick a start and end date",
+  "importFromCsv": "Import from CSV",
+  "importSubtitle": "Add transactions from an exported file",
+  "importSuccess": "Imported {count} transactions",
+  "@importSuccess": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "importEmpty": "No transactions found in that file",
+  "importUnavailable": "Import failed. Please pick a valid CSV file",
   "cloudSync": "Cloud sync",
   "cloudSyncSubtitle": "Back up to the cloud (demo)",
   "about": "About",

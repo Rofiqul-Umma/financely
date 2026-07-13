@@ -142,6 +142,16 @@
   "exportAllTimeSubtitle": "Ekspor seluruh riwayat Anda",
   "exportCustomRange": "Rentang khusus",
   "exportCustomRangeSubtitle": "Pilih tanggal mulai dan akhir",
+  "importFromCsv": "Impor dari CSV",
+  "importSubtitle": "Tambahkan transaksi dari berkas ekspor",
+  "importSuccess": "Mengimpor {count} transaksi",
+  "@importSuccess": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "importEmpty": "Tidak ada transaksi dalam berkas tersebut",
+  "importUnavailable": "Impor gagal. Silakan pilih berkas CSV yang valid",
   "cloudSync": "Sinkronisasi cloud",
   "cloudSyncSubtitle": "Cadangkan ke cloud (demo)",
   "about": "Tentang",

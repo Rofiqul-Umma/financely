@@ -423,6 +423,24 @@ class AppLocalizationsId extends AppLocalizations {
   String get exportCustomRangeSubtitle => 'Pilih tanggal mulai dan akhir';
 
   @override
+  String get importFromCsv => 'Impor dari CSV';
+
+  @override
+  String get importSubtitle => 'Tambahkan transaksi dari berkas ekspor';
+
+  @override
+  String importSuccess(int count) {
+    return 'Mengimpor $count transaksi';
+  }
+
+  @override
+  String get importEmpty => 'Tidak ada transaksi dalam berkas tersebut';
+
+  @override
+  String get importUnavailable =>
+      'Impor gagal. Silakan pilih berkas CSV yang valid';
+
+  @override
   String get cloudSync => 'Sinkronisasi cloud';
 
   @override

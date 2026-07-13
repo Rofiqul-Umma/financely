@@ -866,6 +866,36 @@ abstract class AppLocalizations {
   /// **'Pick a start and end date'**
   String get exportCustomRangeSubtitle;
 
+  /// No description provided for @importFromCsv.
+  ///
+  /// In en, this message translates to:
+  /// **'Import from CSV'**
+  String get importFromCsv;
+
+  /// No description provided for @importSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add transactions from an exported file'**
+  String get importSubtitle;
+
+  /// No description provided for @importSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Imported {count} transactions'**
+  String importSuccess(int count);
+
+  /// No description provided for @importEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No transactions found in that file'**
+  String get importEmpty;
+
+  /// No description provided for @importUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Import failed. Please pick a valid CSV file'**
+  String get importUnavailable;
+
   /// No description provided for @cloudSync.
   ///
   /// In en, this message translates to:
