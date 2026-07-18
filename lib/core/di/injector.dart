@@ -29,6 +29,7 @@ import '../../features/settings/presentation/cubit/settings_cubit.dart';
 import '../../features/transactions/data/datasources/transaction_local_datasource.dart';
 import '../../features/transactions/data/repositories/transaction_repository_impl.dart';
 import '../../features/transactions/domain/repositories/transaction_repository.dart';
+import '../../features/transactions/domain/services/receipt_scanner.dart';
 import '../../features/transactions/domain/usecases/transaction_usecases.dart';
 import '../../features/transactions/presentation/bloc/transactions_bloc.dart';
 import '../database/app_database.dart';
@@ -53,6 +54,7 @@ Future<void> configureDependencies() async {
 
   // Transactions feature.
   sl
+    ..registerLazySingleton<ReceiptScanner>(() => createReceiptScanner())
     ..registerLazySingleton(() => TransactionLocalDataSource(sl()))
     ..registerLazySingleton<TransactionRepository>(
         () => TransactionRepositoryImpl(sl()))

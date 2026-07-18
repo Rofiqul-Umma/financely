@@ -201,6 +201,21 @@ class AppLocalizationsId extends AppLocalizations {
   String get enterValidAmount => 'Masukkan jumlah yang valid';
 
   @override
+  String get scanReceipt => 'Pindai struk';
+
+  @override
+  String get scanFromCamera => 'Ambil foto';
+
+  @override
+  String get scanFromGallery => 'Pilih dari galeri';
+
+  @override
+  String get scanNoAmount => 'Tidak dapat membaca jumlah dari gambar itu';
+
+  @override
+  String get scanFailed => 'Pemindaian struk gagal. Silakan coba lagi';
+
+  @override
   String typeUpdated(String type) {
     return '$type diperbarui';
   }

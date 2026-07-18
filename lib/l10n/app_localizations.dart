@@ -452,6 +452,36 @@ abstract class AppLocalizations {
   /// **'Enter a valid amount'**
   String get enterValidAmount;
 
+  /// No description provided for @scanReceipt.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan receipt'**
+  String get scanReceipt;
+
+  /// No description provided for @scanFromCamera.
+  ///
+  /// In en, this message translates to:
+  /// **'Take a photo'**
+  String get scanFromCamera;
+
+  /// No description provided for @scanFromGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose from gallery'**
+  String get scanFromGallery;
+
+  /// No description provided for @scanNoAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t read an amount from that image'**
+  String get scanNoAmount;
+
+  /// No description provided for @scanFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Receipt scan failed. Please try again'**
+  String get scanFailed;
+
   /// No description provided for @typeUpdated.
   ///
   /// In en, this message translates to:

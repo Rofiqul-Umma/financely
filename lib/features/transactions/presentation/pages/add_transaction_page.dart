@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../../core/constants/currencies.dart';
+import '../../../../core/di/injector.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../l10n/l10n_labels.dart';
 import '../../../accounts/domain/entities/account.dart';
@@ -12,6 +13,7 @@ import '../../../accounts/presentation/utils/account_visuals.dart';
 import '../../../settings/presentation/cubit/settings_cubit.dart';
 import '../../domain/entities/transaction.dart';
 import '../../domain/entities/transaction_enums.dart';
+import '../../domain/services/receipt_scanner.dart';
 import '../bloc/transactions_bloc.dart';
 import '../utils/category_visuals.dart';
 
@@ -40,6 +42,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   final _amountController = TextEditingController();
   final _noteController = TextEditingController();
   final _customLabelController = TextEditingController();
+  final _scanner = sl<ReceiptScanner>();
 
   TransactionType _type = TransactionType.expense;
   TransactionCategory _category = TransactionCategory.food;
@@ -117,6 +120,48 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
       lastDate: DateTime.now().add(const Duration(days: 1)),
     );
     if (picked != null) setState(() => _date = picked);
+  }
+
+  Future<void> _scanReceipt() async {
+    final l = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    final source = await showModalBottomSheet<ScanSource>(
+      context: context,
+      showDragHandle: true,
+      builder: (sheetContext) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.photo_camera_outlined),
+              title: Text(l.scanFromCamera),
+              onTap: () => Navigator.pop(sheetContext, ScanSource.camera),
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library_outlined),
+              title: Text(l.scanFromGallery),
+              onTap: () => Navigator.pop(sheetContext, ScanSource.gallery),
+            ),
+          ],
+        ),
+      ),
+    );
+    if (source == null) return;
+
+    try {
+      final amount = await _scanner.scanAmount(source);
+      if (amount == null) {
+        messenger
+          ..hideCurrentSnackBar()
+          ..showSnackBar(SnackBar(content: Text(l.scanNoAmount)));
+        return;
+      }
+      setState(() => _amountController.text = _trimZeros(amount));
+    } catch (_) {
+      messenger
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(content: Text(l.scanFailed)));
+    }
   }
 
   Future<void> _save() async {
@@ -286,6 +331,7 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
               symbol: currencyByCode(currencyCode).symbol,
               isIncome: _type == TransactionType.income,
               autofocus: !_isEditing,
+              onScan: _scanner.isSupported ? _scanReceipt : null,
             ),
             const SizedBox(height: 24),
             TextFormField(
@@ -480,12 +526,14 @@ class _AmountField extends StatelessWidget {
   final String symbol;
   final bool isIncome;
   final bool autofocus;
+  final VoidCallback? onScan;
 
   const _AmountField({
     required this.controller,
     required this.symbol,
     required this.isIncome,
     this.autofocus = true,
+    this.onScan,
   });
 
   @override
@@ -540,6 +588,13 @@ class _AmountField extends StatelessWidget {
               },
             ),
           ),
+          if (onScan != null)
+            IconButton(
+              onPressed: onScan,
+              icon: const Icon(Icons.document_scanner_outlined),
+              tooltip: AppLocalizations.of(context).scanReceipt,
+              color: color,
+            ),
         ],
       ),
     );

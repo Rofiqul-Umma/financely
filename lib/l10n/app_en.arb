@@ -84,6 +84,11 @@
   "transactionDeleted": "Transaction deleted",
   "enterAmount": "Enter an amount",
   "enterValidAmount": "Enter a valid amount",
+  "scanReceipt": "Scan receipt",
+  "scanFromCamera": "Take a photo",
+  "scanFromGallery": "Choose from gallery",
+  "scanNoAmount": "Couldn't read an amount from that image",
+  "scanFailed": "Receipt scan failed. Please try again",
   "typeUpdated": "{type} updated",
   "@typeUpdated": {
     "placeholders": { "type": { "type": "String" } }

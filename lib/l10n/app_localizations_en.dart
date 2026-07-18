@@ -201,6 +201,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enterValidAmount => 'Enter a valid amount';
 
   @override
+  String get scanReceipt => 'Scan receipt';
+
+  @override
+  String get scanFromCamera => 'Take a photo';
+
+  @override
+  String get scanFromGallery => 'Choose from gallery';
+
+  @override
+  String get scanNoAmount => 'Couldn\'t read an amount from that image';
+
+  @override
+  String get scanFailed => 'Receipt scan failed. Please try again';
+
+  @override
   String typeUpdated(String type) {
     return '$type updated';
   }
